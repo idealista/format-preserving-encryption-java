@@ -9,7 +9,7 @@ An implementation of the NIST approved Format Preserving Encryption (FPE) FF1 al
 
 
 ## Features
-   
+
 
 ## Example Usage
 
