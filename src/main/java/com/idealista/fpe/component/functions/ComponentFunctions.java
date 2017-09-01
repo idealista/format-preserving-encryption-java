@@ -8,8 +8,6 @@ public class ComponentFunctions {
         BigInteger result = BigInteger.ZERO;
         BigInteger bradix = BigInteger.valueOf(radix);
         for (int number : plainData) {
-            if(number < 0 || number >= radix)
-                throw new IllegalArgumentException(number + " is not between 0 and radix");
             result = result.multiply(bradix).add(BigInteger.valueOf(number));
         }
         return result;
