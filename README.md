@@ -13,6 +13,21 @@ An implementation of the NIST approved Format Preserving Encryption (FPE) FF1 al
 
 ## Example Usage
 
+During FF1 object creation, input data shall meet the following requirements:
+
+- radix ∈ [ 2 .. 2^6 ]
+- radix ^ minlen >= 100
+- 2 <= minlen < maxlen <= 2^32
+- key is an AES Key, must be 16, 24 or 32 bytes length
+
+If default tweak option is used:
+
+- tweakMaxLength should be lower that maxlen
+- tweak length should be lower that tweakMaxLength
+
+D
+
+
 
 ## Requirements
 
