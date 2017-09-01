@@ -5,6 +5,11 @@ import java.math.BigInteger;
 public class ComponentFunctions {
 
     public static BigInteger num(int[] plainData, Integer radix) {
-        return BigInteger.ZERO;
+        BigInteger result = BigInteger.ZERO;
+        BigInteger bradix = BigInteger.valueOf(radix);
+        for (int number : plainData) {
+            result = result.multiply(bradix).add(BigInteger.valueOf(number));
+        }
+        return result;
     }
 }
