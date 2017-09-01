@@ -19,4 +19,12 @@ public class ComponentFunctionNumRadixX {
     }
 
 
+    @Test(expected = IllegalArgumentException.class)
+    public void given_plain_data_with_a_number_bigger_than_radix_throw_an_exception () {
+        int[] plainData = {0, 9, 0, 1, 1, 0, 1, 0};
+        Integer radix = 5;
+        ComponentFunctions.num(plainData, radix);
+    }
+
+
 }
