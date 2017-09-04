@@ -21,6 +21,8 @@ public class ComponentFunctions {
     public static int[] stringOf(Integer length, Integer radix, BigInteger number) {
         int[] result = new int[length];
         BigInteger base = BigInteger.valueOf(radix);
+        if (number.compareTo(BigInteger.ZERO) < 0 || number.compareTo(base.pow(length)) >= 0)
+            throw new IllegalArgumentException("number is out of range: [0, + "+ base.pow(length)  +" )");
         BigInteger workingNumber = number;
         for (int i=1; i <= length; i++){
             result[length - i] = workingNumber.mod(base).intValue();
