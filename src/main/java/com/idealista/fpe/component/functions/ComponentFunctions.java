@@ -1,6 +1,7 @@
 package com.idealista.fpe.component.functions;
 
 import java.math.BigInteger;
+import java.net.BindException;
 
 public class ComponentFunctions {
 
@@ -18,6 +19,13 @@ public class ComponentFunctions {
     }
 
     public static int[] stringOf(Integer length, Integer radix, BigInteger number) {
-        return new int[0];
+        int[] result = new int[length];
+        BigInteger base = BigInteger.valueOf(radix);
+        BigInteger workingNumber = number;
+        for (int i=1; i <= length; i++){
+            result[length - i] = workingNumber.mod(base).intValue();
+            workingNumber = workingNumber.divide(base);
+        }
+        return result;
     }
 }
