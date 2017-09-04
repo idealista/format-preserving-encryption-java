@@ -16,4 +16,8 @@ public class ComponentFunctions {
     public static BigInteger num(byte[] plainData) {
         return new BigInteger(1, plainData);
     }
+
+    public static int[] stringOf(Integer length, Integer radix, BigInteger number) {
+        return new int[0];
+    }
 }

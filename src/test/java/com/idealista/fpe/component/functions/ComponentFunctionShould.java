@@ -39,4 +39,13 @@ public class ComponentFunctionShould {
     }
 
 
+    @Test
+    public void string_radix_m_of_x_given_nonnegative_integer_less_than_radix_to_m_return_x_as_string_of_m_numerals_in_base_radix () {
+        Integer length = 4;
+        Integer radix = 12;
+        BigInteger number = BigInteger.valueOf(559);
+        int[] expectedResult = {0, 3, 10, 7};
+        assertThat(ComponentFunctions.stringOf(length, radix, number), is(expectedResult));
+    }
+
 }
