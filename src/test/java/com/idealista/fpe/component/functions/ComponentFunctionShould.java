@@ -48,4 +48,12 @@ public class ComponentFunctionShould {
         assertThat(ComponentFunctions.stringOf(length, radix, number), is(expectedResult));
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void string_radix_m_of_x_given_nonnegative_integer_bigger_than_radix_to_m_throws_an_exception () {
+        Integer length = 4;
+        Integer radix = 12;
+        int anyNumber = 30;
+        ComponentFunctions.stringOf(length, radix, BigInteger.valueOf(radix).pow(length).add(BigInteger.valueOf(anyNumber)));
+    }
+
 }
