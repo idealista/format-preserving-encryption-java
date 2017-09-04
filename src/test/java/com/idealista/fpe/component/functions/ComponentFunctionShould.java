@@ -23,7 +23,7 @@ public class ComponentFunctionShould {
 
 
     @Test
-    public void num_x_given_byte_integer_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data() {
+    public void num_x_given_byte_integer_plain_data_return_the_default_radix_plain_data_representation () {
         byte[] toZero = {(byte) 0x00}; // 2 ^ 0
         assertThat(ComponentFunctions.num(toZero), is(BigInteger.ZERO));
         byte[] toFive = {(byte) 0x20}; // 2 ^ 5
