@@ -1,23 +1,17 @@
 package com.idealista.fpe.ff1;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class FF1AlgorithmWithRadix10NoEmptyDataShould {
-
-    public FF1AlgorithmWithRadix10NoEmptyDataShould() throws NoSuchPaddingException, NoSuchAlgorithmException {
-    }
+public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
 
     @Parameterized.Parameters(name = "{index}: plain text is {0}")
     public static Iterable<int[]> data() {
@@ -41,21 +35,21 @@ public class FF1AlgorithmWithRadix10NoEmptyDataShould {
     };
 
 
-    Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak, cipher);
+        int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak);
         assertThat(input.length, is(cipherText.length));
-        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak, cipher)));
+        assertThat(input, is(not(cipherText)));
+        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak)));
 
     }
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak, cipher);
+        int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak);
         assertThat(input.length, is(plainText.length));
-        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak, cipher)));
+        assertThat(input, is(not(plainText)));
+        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak)));
 
     }
 

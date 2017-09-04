@@ -40,38 +40,19 @@ public class ComponentFunctions {
         return result;
     }
 
-    public static byte[] decyptPRF(byte[] plain, byte[] key, Cipher cipher) throws InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
-        byte[] result;
-
+    public static byte[] PRF(byte[] plain, byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
         byte[] initializationVector = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
                 (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
                 (byte) 0x00, (byte) 0x00};
-
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(initializationVector));
-
-        result = cipher.doFinal(plain);
-
+        byte[] result = cipher.doFinal(plain);
         return Arrays.copyOfRange(result, result.length - 16, result.length);
     }
 
-    public static byte[] encryptPRF(byte[] plain, byte[] key) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
-        int m = plain.length / 16;
-        byte[] Y = UtilFunctions.bitstring(false, 128);
-        for (int j = 0; j < m; j++) {
-            byte[] Xj = Arrays.copyOfRange(plain, j * 16, j * 16 + 16);
-                cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
-
-                Y = cipher.doFinal(UtilFunctions.xor(Y, Xj));
-
-        }
-
-        // 4. Return Y(m).
-        return Y;
-    }
-
-    public static byte[] ciph(byte[] key, byte[] plain, Cipher cipher) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public static byte[] ciph(byte[] key, byte[] plain) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException {
         byte[] cipherText;
+        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
         cipherText = cipher.doFinal(plain);
         return cipherText;

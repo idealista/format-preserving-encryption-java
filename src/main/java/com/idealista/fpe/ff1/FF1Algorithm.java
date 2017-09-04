@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
@@ -20,7 +19,7 @@ import com.idealista.fpe.data.IntString;
 
 public class FF1Algorithm {
 
-    public static int[] encrypt(int[] plainText, Integer radix, byte[] key, byte[] tweak, Cipher cipher) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public static int[] encrypt(int[] plainText, Integer radix, byte[] key, byte[] tweak) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
         IntString target = new IntString(plainText);
         int tweakLength = tweak.length;
         int leftSideLength = target.leftSideLength();
@@ -35,10 +34,10 @@ public class FF1Algorithm {
                     .concatenate(new ByteString(numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16))))
                     .concatenate(new ByteString(numberAsArrayOfBytes(i, 1)))
                     .concatenate(new ByteString(numberAsArrayOfBytes(num(right, radix).intValue(), lengthOfLeftAfterEncoded)));
-            byte[] R = encryptPRF(padding.concatenate(q).raw(), key);
+            byte[] R = PRF(padding.concatenate(q).raw(), key);
             ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-                S = S.concatenate(new ByteString(ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher)));
+                S = S.concatenate(new ByteString(ciph(key, xor(R, numberAsArrayOfBytes(j, 16)))));
             }
             BigInteger y = num(Arrays.copyOf(S.raw(), paddingToEnsureFeistelOutputIsBigger));
             int m = i % 2 == 0 ? leftSideLength : rightSideLength;
@@ -55,7 +54,7 @@ public class FF1Algorithm {
     }
 
 
-    public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak, Cipher cipher) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
+    public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
         int textLength = cipherText.length;
         int tweakLength = tweak.length;
         int leftSideLength = (int) Math.floor(textLength / 2.0);
@@ -69,10 +68,10 @@ public class FF1Algorithm {
             byte[] Q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             Q = concatenate(Q, numberAsArrayOfBytes(i, 1));
             Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix).intValue(), b));
-            byte[] R = decyptPRF(concatenate(padding, Q), key, cipher);
+            byte[] R = PRF(concatenate(padding, Q), key);
             byte[] S = R;
             for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
-                S = concatenate(S, ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
+                S = concatenate(S, ciph(key, xor(R, numberAsArrayOfBytes(j, 16))));
             }
             S = Arrays.copyOf(S, d);
             BigInteger y = num(S);
