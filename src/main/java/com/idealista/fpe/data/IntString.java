@@ -1,5 +1,7 @@
 package com.idealista.fpe.data;
 
+import java.util.Arrays;
+
 public class IntString {
 
     private final int[] data;
@@ -9,11 +11,19 @@ public class IntString {
     }
 
     public int leftSideLength() {
-        return (int) Math.floor(this.length() / 2.0);
+        return (int) Math.floor(length() / 2.0);
     }
 
     public int rightSideLength() {
-        return this.length() - this.leftSideLength();
+        return length() - leftSideLength();
+    }
+
+    public int[] left() {
+        return Arrays.copyOfRange(data, 0, leftSideLength());
+    }
+
+    public int[] right() {
+        return Arrays.copyOfRange(data, leftSideLength(), length());
     }
 
     public int length() {

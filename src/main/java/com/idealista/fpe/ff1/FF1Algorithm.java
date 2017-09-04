@@ -26,21 +26,21 @@ public class FF1Algorithm {
         int tweakLength = tweak.length;
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
-        int[] left = Arrays.copyOfRange(plainText, 0, leftSideLength);
-        int[] right = Arrays.copyOfRange(plainText, leftSideLength, target.length());
-        int b = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
-        int d = (int) (4 * ceil(b / 4.0) + 4);
+        int[] left = target.left();
+        int[] right = target.right();
+        int lengthOfLeftAfterEncoded = lengthOfLeftAfterEncoded(radix, rightSideLength);
+        int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
         byte[] padding = generateIntialPadding(radix, target.length(), tweakLength, leftSideLength);
         for (int i = 0; i < 10; i++) {
-            byte[] q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
+            byte[] q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16)));
             q = concatenate(q, numberAsArrayOfBytes(i, 1));
-            q = concatenate(q, numberAsArrayOfBytes(num(right, radix).intValue(), b));
+            q = concatenate(q, numberAsArrayOfBytes(num(right, radix).intValue(), lengthOfLeftAfterEncoded));
             byte[] R = ComponentFunctions.encryptPRF(concatenate(padding, q), key);
             byte[] S = R;
-            for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
+            for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
                 S = concatenate(S, ComponentFunctions.ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
             }
-            S = Arrays.copyOf(S, d);
+            S = Arrays.copyOf(S, paddingToEnsureFeistelOutputIsBigger);
             BigInteger y = num(S);
             int m = i % 2 == 0 ? leftSideLength : rightSideLength;
             BigInteger c = num(left, radix).add(y).mod(BigInteger.valueOf(radix).pow(m));
@@ -51,9 +51,10 @@ public class FF1Algorithm {
         return concatenate(left, right);
     }
 
-    private static int getLength(int[] plainText) {
-        return new IntString(plainText).length();
+    private static int lengthOfLeftAfterEncoded(Integer radix, int rightSideLength) {
+        return (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
     }
+
 
     public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak, Cipher cipher) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
         int textLength = cipherText.length;
@@ -62,7 +63,7 @@ public class FF1Algorithm {
         int rightSideLength = textLength - leftSideLength;
         int[] left = Arrays.copyOfRange(cipherText, 0, leftSideLength);
         int[] right = Arrays.copyOfRange(cipherText, leftSideLength, textLength);
-        int b = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
+        int b = lengthOfLeftAfterEncoded(radix, rightSideLength);
         int d = (int) (4 * ceil(b / 4.0) + 4);
         byte[] padding = generateIntialPadding(radix, textLength, tweakLength, leftSideLength);
         for (int i = 9; i >= 0; i--) {
