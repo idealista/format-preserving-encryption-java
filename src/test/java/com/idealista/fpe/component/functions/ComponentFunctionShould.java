@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -25,7 +26,10 @@ public class ComponentFunctionShould {
         BigInteger expectedResult = BigInteger.valueOf(128);
         byte[] plainData = {(byte) 0x80 };
         assertThat(ComponentFunctions.num(plainData) , is(expectedResult));
-
+        byte[] checkResult = ComponentFunctions.num(plainData).pow(plainData.length).toByteArray();
+        // see https://stackoverflow.com/questions/4407779/biginteger-to-byte
+        byte[] checkResultWithoutByteSing = Arrays.copyOfRange(checkResult, 1, checkResult.length);
+        assertThat(checkResultWithoutByteSing, is(plainData));
     }
 
 

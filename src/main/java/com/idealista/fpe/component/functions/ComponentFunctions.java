@@ -14,6 +14,6 @@ public class ComponentFunctions {
     }
 
     public static BigInteger num(byte[] plainData) {
-        return null;
+        return new BigInteger(1, plainData);
     }
 }
