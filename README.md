@@ -25,7 +25,7 @@ If default tweak option is used:
 - tweakMaxLength should be lower that maxlen
 - tweak length should be lower that tweakMaxLength
 
-D
+
 
 
 
@@ -35,7 +35,7 @@ The library has been tested with _Apache Maven 3.3.3_ and _JDK 1.6-1.7_. Newer v
 
 ## Design choices
 
-
+- FF1Algorithm is a _pure_ implementation without checking, evey check is performance in ..
 
 ## TODO
 
