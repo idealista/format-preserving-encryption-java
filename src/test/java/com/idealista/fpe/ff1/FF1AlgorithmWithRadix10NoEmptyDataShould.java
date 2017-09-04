@@ -5,12 +5,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
-import javax.naming.ldap.HasControls;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
