@@ -13,4 +13,9 @@ public class UtilFunctionsShould {
         assertThat(UtilFunctions.log(4), is(2));
         assertThat(UtilFunctions.log(8), is(3));
     }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void log_given_an_integer_x_lower_than_zero_throws_an_exception () {
+        UtilFunctions.log(-4);
+    }
 }
