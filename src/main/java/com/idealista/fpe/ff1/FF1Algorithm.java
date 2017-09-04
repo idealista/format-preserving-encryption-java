@@ -1,7 +1,6 @@
 package com.idealista.fpe.ff1;
 
-import static com.idealista.fpe.component.functions.ComponentFunctions.num;
-import static com.idealista.fpe.component.functions.ComponentFunctions.stringOf;
+import static com.idealista.fpe.component.functions.ComponentFunctions.*;
 import static com.idealista.fpe.component.functions.UtilFunctions.*;
 import static java.lang.Math.ceil;
 
@@ -16,7 +15,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.idealista.fpe.component.functions.ComponentFunctions;
+import com.idealista.fpe.data.ByteString;
 import com.idealista.fpe.data.IntString;
 
 public class FF1Algorithm {
@@ -30,18 +29,18 @@ public class FF1Algorithm {
         int[] right = target.right();
         int lengthOfLeftAfterEncoded = lengthOfLeftAfterEncoded(radix, rightSideLength);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
-        byte[] padding = generateIntialPadding(radix, target.length(), tweakLength, leftSideLength);
+        ByteString padding = new ByteString(generateIntialPadding(radix, target.length(), tweakLength, leftSideLength));
         for (int i = 0; i < 10; i++) {
-            byte[] q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16)));
-            q = concatenate(q, numberAsArrayOfBytes(i, 1));
-            q = concatenate(q, numberAsArrayOfBytes(num(right, radix).intValue(), lengthOfLeftAfterEncoded));
-            byte[] R = ComponentFunctions.encryptPRF(concatenate(padding, q), key);
-            byte[] S = R;
+            ByteString q = new ByteString(tweak)
+                    .concatenate(new ByteString(numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16))))
+                    .concatenate(new ByteString(numberAsArrayOfBytes(i, 1)))
+                    .concatenate(new ByteString(numberAsArrayOfBytes(num(right, radix).intValue(), lengthOfLeftAfterEncoded)));
+            byte[] R = encryptPRF(padding.concatenate(q).raw(), key);
+            ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-                S = concatenate(S, ComponentFunctions.ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
+                S = S.concatenate(new ByteString(ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher)));
             }
-            S = Arrays.copyOf(S, paddingToEnsureFeistelOutputIsBigger);
-            BigInteger y = num(S);
+            BigInteger y = num(Arrays.copyOf(S.raw(), paddingToEnsureFeistelOutputIsBigger));
             int m = i % 2 == 0 ? leftSideLength : rightSideLength;
             BigInteger c = num(left, radix).add(y).mod(BigInteger.valueOf(radix).pow(m));
             int[] partialSide = stringOf(m, radix, c);
@@ -70,10 +69,10 @@ public class FF1Algorithm {
             byte[] Q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             Q = concatenate(Q, numberAsArrayOfBytes(i, 1));
             Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix).intValue(), b));
-            byte[] R = ComponentFunctions.decyptPRF(concatenate(padding, Q), key, cipher);
+            byte[] R = decyptPRF(concatenate(padding, Q), key, cipher);
             byte[] S = R;
             for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
-                S = concatenate(S, ComponentFunctions.ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
+                S = concatenate(S, ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
             }
             S = Arrays.copyOf(S, d);
             BigInteger y = num(S);
