@@ -14,6 +14,7 @@ class UtilFunctions {
     }
 
     static int log(int number) {
+        checkRangeOf(BigInteger.valueOf(number), BigInteger.valueOf(Integer.MAX_VALUE));
         return (int) (Math.log(number) / Math.log(2));
     }
 }
