@@ -22,7 +22,7 @@ public class ComponentFunctionShould {
     }
 
     @Test
-    public void num_x_given_byte_intenger_plain_data_return_the_integer_x_where_x_to_plain_data_lenth_is_equal_to_plain_data () {
+    public void num_x_given_byte_intenger_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data () {
         byte[] plainData = {(byte) 0x80 };
         byte[] checkResult = ComponentFunctions.num(plainData).pow(plainData.length).toByteArray();
         // see https://stackoverflow.com/questions/4407779/biginteger-to-byte
