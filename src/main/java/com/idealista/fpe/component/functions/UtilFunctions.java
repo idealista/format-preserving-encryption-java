@@ -13,4 +13,7 @@ class UtilFunctions {
             throw new IllegalArgumentException(String.format(NUMBER_IS_OUT_OF_RANGE, upperLimit));
     }
 
+    static int log(int number) {
+        return 0;
+    }
 }
