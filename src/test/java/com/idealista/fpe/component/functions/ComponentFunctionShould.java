@@ -13,7 +13,7 @@ public class ComponentFunctionShould {
     //Test cases: http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-38G.pdf # Sec4.2
 
     @Test
-    public void num_radix_x_given_plain_data_return_the_equivalent_number_in_base_radix_when_evaluated_in_decreasing_order () {
+    public void num_radix_x_given_plain_data_return_the_equivalent_number_in_base_radix_when_evaluated_in_decreasing_order() {
         int[] plainData = {0, 0, 0, 1, 1, 0, 1, 0};
         BigInteger expectedResult = BigInteger.valueOf(755);
         Integer radix = 5;
@@ -23,30 +23,20 @@ public class ComponentFunctionShould {
 
 
     @Test
-    public void num_x_given_byte_integer_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data () {
-        byte[][] samples = {
-                {(byte) 0x00},
-                {(byte) 0x02},
-                {(byte) 0x80},
-                {(byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03},
-                {(byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x02},
-                {(byte) 0x03, (byte) 0x00, (byte) 0x00, (byte) 0x01},
-                {(byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00},
-                {(byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x01},
-                {(byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00},
-                {(byte) 0x07, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF},
-                {(byte) 0x08, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF}
-        };
-        for (byte[] plainData : samples) {
-            byte[] result = ComponentFunctions.num(plainData).pow(plainData.length).toByteArray();
-            // see https://stackoverflow.com/questions/4407779/biginteger-to-byte
-            if(result.length > 1)
-                result  = Arrays.copyOfRange(result, 1, result.length);
-            assertThat(result, is(plainData));
-        }
+    public void num_x_given_byte_integer_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data() {
+        byte[] toZero = {(byte) 0x00}; // 2 ^ 0
+        assertThat(ComponentFunctions.num(toZero), is(BigInteger.ZERO));
+        byte[] toFive = {(byte) 0x20}; // 2 ^ 5
+        assertThat(ComponentFunctions.num(toFive), is(BigInteger.valueOf(32)));
+        byte[] toTen = {(byte) 0x04, (byte) 0x00}; // 2 ^ 10
+        assertThat(ComponentFunctions.num(toTen), is(BigInteger.valueOf(1024)));
+        byte[] toFifteen = {(byte) 0x80, (byte) 0x00}; // 2 ^ 15
+        assertThat(ComponentFunctions.num(toFifteen), is(BigInteger.valueOf(32768)));
+        byte[] toTwenty = {(byte) 0x10, (byte) 0x00, (byte) 0x00};// 2 ^ 20
+        assertThat(ComponentFunctions.num(toTwenty), is(BigInteger.valueOf(1048576)));
+        byte[] toTwentyFive = {(byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x00}; // 2 ^ 25
+        assertThat(ComponentFunctions.num(toTwentyFive), is(BigInteger.valueOf(33554432)));
     }
-
-
 
 
 }
