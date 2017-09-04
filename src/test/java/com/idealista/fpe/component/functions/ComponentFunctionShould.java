@@ -21,13 +21,29 @@ public class ComponentFunctionShould {
         assertThat(result, is(expectedResult));
     }
 
+
     @Test
-    public void num_x_given_byte_intenger_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data () {
-        byte[] plainData = {(byte) 0x80 };
-        byte[] checkResult = ComponentFunctions.num(plainData).pow(plainData.length).toByteArray();
-        // see https://stackoverflow.com/questions/4407779/biginteger-to-byte
-        byte[] checkResultWithoutByteSing = Arrays.copyOfRange(checkResult, 1, checkResult.length);
-        assertThat(checkResultWithoutByteSing, is(plainData));
+    public void num_x_given_byte_integer_plain_data_return_the_integer_x_where_x_to_plain_data_length_is_equal_to_plain_data () {
+        byte[][] samples = {
+                {(byte) 0x00},
+                {(byte) 0x02},
+                {(byte) 0x80},
+                {(byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x03},
+                {(byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x02},
+                {(byte) 0x03, (byte) 0x00, (byte) 0x00, (byte) 0x01},
+                {(byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00},
+                {(byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x01},
+                {(byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00},
+                {(byte) 0x07, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF},
+                {(byte) 0x08, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF}
+        };
+        for (byte[] plainData : samples) {
+            byte[] result = ComponentFunctions.num(plainData).pow(plainData.length).toByteArray();
+            // see https://stackoverflow.com/questions/4407779/biginteger-to-byte
+            if(result.length > 1)
+                result  = Arrays.copyOfRange(result, 1, result.length);
+            assertThat(result, is(plainData));
+        }
     }
 
 
