@@ -14,6 +14,6 @@ class UtilFunctions {
     }
 
     static int log(int number) {
-        return 0;
+        return (int) (Math.log(number) / Math.log(2));
     }
 }
