@@ -41,7 +41,7 @@ public class FF1Algorithm {
             byte[] q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             q = concatenate(q, numberAsArrayOfBytes(i, 1));
             q = concatenate(q, numberAsArrayOfBytes(num(right, radix).intValue(), b));
-            byte[] R = ComponentFunctions.prf(concatenate(padding, q), key);
+            byte[] R = ComponentFunctions.encryptPRF(concatenate(padding, q), key);
             byte[] S = R;
             for (int j = 1; j <= Math.ceil(d / 16.0) - 1; j++) {
                 S = concatenate(S, ComponentFunctions.ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));
@@ -75,7 +75,7 @@ public class FF1Algorithm {
             byte[] Q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             Q = concatenate(Q, numberAsArrayOfBytes(i, 1));
             Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix).intValue(), b));
-            byte[] R = ComponentFunctions.prf2(concatenate(P, Q), key, cipher);
+            byte[] R = ComponentFunctions.decyptPRF(concatenate(P, Q), key, cipher);
             byte[] S = R;
             for (int j = 1; j <= Math.ceil(d / 16.0) - 1; j++) {
                 S = concatenate(S, ComponentFunctions.ciph(key, xor(R, numberAsArrayOfBytes(j, 16)), cipher));

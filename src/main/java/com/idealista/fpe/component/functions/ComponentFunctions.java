@@ -40,7 +40,7 @@ public class ComponentFunctions {
         return result;
     }
 
-    public static byte[] prf2(byte[] plain, byte[] key, Cipher cipher) throws InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
+    public static byte[] decyptPRF(byte[] plain, byte[] key, Cipher cipher) throws InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
         byte[] result;
 
         byte[] initializationVector = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
@@ -54,7 +54,7 @@ public class ComponentFunctions {
         return Arrays.copyOfRange(result, result.length - 16, result.length);
     }
 
-    public static byte[] prf(byte[] plain, byte[] key) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
+    public static byte[] encryptPRF(byte[] plain, byte[] key) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
         int m = plain.length / 16;
         byte[] Y = UtilFunctions.bitstring(false, 128);
