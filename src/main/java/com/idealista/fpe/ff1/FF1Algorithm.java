@@ -17,19 +17,20 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import com.idealista.fpe.component.functions.ComponentFunctions;
+import com.idealista.fpe.data.IntString;
 
 public class FF1Algorithm {
 
     public static int[] encrypt(int[] plainText, Integer radix, byte[] key, byte[] tweak, Cipher cipher) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
-        int textLength = plainText.length;
+        IntString target = new IntString(plainText);
         int tweakLength = tweak.length;
-        int leftSideLength = (int) Math.floor(textLength / 2.0);
-        int rightSideLength = textLength - leftSideLength;
+        int leftSideLength = target.leftSideLength();
+        int rightSideLength = target.rightSideLength();
         int[] left = Arrays.copyOfRange(plainText, 0, leftSideLength);
-        int[] right = Arrays.copyOfRange(plainText, leftSideLength, textLength);
+        int[] right = Arrays.copyOfRange(plainText, leftSideLength, target.length());
         int b = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int d = (int) (4 * ceil(b / 4.0) + 4);
-        byte[] padding = generateIntialPadding(radix, textLength, tweakLength, leftSideLength);
+        byte[] padding = generateIntialPadding(radix, target.length(), tweakLength, leftSideLength);
         for (int i = 0; i < 10; i++) {
             byte[] q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             q = concatenate(q, numberAsArrayOfBytes(i, 1));
@@ -48,6 +49,10 @@ public class FF1Algorithm {
             right = partialSide;
         }
         return concatenate(left, right);
+    }
+
+    private static int getLength(int[] plainText) {
+        return new IntString(plainText).length();
     }
 
     public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak, Cipher cipher) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
