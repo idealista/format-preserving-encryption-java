@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 import org.junit.Test;
 
