@@ -33,7 +33,7 @@ public class FF1Algorithm {
             ByteString q = new ByteString(tweak)
                     .concatenate(new ByteString(numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16))))
                     .concatenate(new ByteString(numberAsArrayOfBytes(i, 1)))
-                    .concatenate(new ByteString(numberAsArrayOfBytes(num(right, radix).intValue(), lengthOfLeftAfterEncoded)));
+                    .concatenate(new ByteString(numberAsArrayOfBytes(num(right, radix), lengthOfLeftAfterEncoded)));
             byte[] R = PRF(padding.concatenate(q).raw(), key);
             ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
@@ -67,7 +67,7 @@ public class FF1Algorithm {
         for (int i = 9; i >= 0; i--) {
             byte[] Q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             Q = concatenate(Q, numberAsArrayOfBytes(i, 1));
-            Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix).intValue(), b));
+            Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix), b));
             byte[] R = PRF(concatenate(padding, Q), key);
             byte[] S = R;
             for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
