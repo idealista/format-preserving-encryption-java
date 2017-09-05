@@ -40,17 +40,6 @@ public class ComponentFunctions {
         return result;
     }
 
-    public static byte[] PRF(byte[] plain, byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        byte[] initializationVector = new byte[16];
-        for (int i=0; i< initializationVector.length; i++ ) {
-            initializationVector[i] = (byte) 0x00;
-        }
-        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(initializationVector));
-        byte[] result = cipher.doFinal(plain);
-        return Arrays.copyOfRange(result, result.length - initializationVector.length, result.length);
-    }
-
     public static byte[] ciph(byte[] key, byte[] plain) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException {
         byte[] cipherText;
         Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
