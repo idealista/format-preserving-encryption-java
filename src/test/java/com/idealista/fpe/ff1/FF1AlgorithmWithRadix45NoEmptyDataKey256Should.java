@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
+
 @RunWith(Parameterized.class)
 public class FF1AlgorithmWithRadix45NoEmptyDataKey256Should {
 
@@ -42,7 +44,7 @@ public class FF1AlgorithmWithRadix45NoEmptyDataKey256Should {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak);
+        int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak, new DefaultPseudarandomFunction());
         assertThat(input.length, is(cipherText.length));
         assertThat(input, is(not(cipherText)));
         assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak)));
@@ -54,7 +56,7 @@ public class FF1AlgorithmWithRadix45NoEmptyDataKey256Should {
         int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak);
         assertThat(input.length, is(plainText.length));
         assertThat(input, is(not(plainText)));
-        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak)));
+        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak, new DefaultPseudarandomFunction())));
 
     }
 

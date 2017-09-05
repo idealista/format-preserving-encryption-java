@@ -14,12 +14,13 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import com.idealista.fpe.component.functions.prf.PseudorandomFunction;
 import com.idealista.fpe.data.ByteString;
 import com.idealista.fpe.data.IntString;
 
 public class FF1Algorithm {
 
-    public static int[] encrypt(int[] plainText, Integer radix, byte[] key, byte[] tweak) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public static int[] encrypt(int[] plainText, Integer radix, byte[] key, byte[] tweak, PseudorandomFunction pseudorandomFunction) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException {
         IntString target = new IntString(plainText);
         int tweakLength = tweak.length;
         int leftSideLength = target.leftSideLength();
@@ -34,7 +35,7 @@ public class FF1Algorithm {
                     .concatenate(new ByteString(numberAsArrayOfBytes(0, mod(-tweakLength - lengthOfLeftAfterEncoded - 1, 16))))
                     .concatenate(new ByteString(numberAsArrayOfBytes(i, 1)))
                     .concatenate(new ByteString(numberAsArrayOfBytes(num(right, radix), lengthOfLeftAfterEncoded)));
-            byte[] R = PRF(padding.concatenate(q).raw(), key);
+            byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw(), key);
             ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
                 S = S.concatenate(new ByteString(ciph(key, xor(R, numberAsArrayOfBytes(j, 16)))));
