@@ -21,61 +21,50 @@ class FF1Algorithm {
 
     static int[] encrypt(int[] plainText, Integer radix, byte[] tweak, PseudorandomFunction pseudorandomFunction) {
         IntString target = new IntString(plainText);
-        ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
         int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
-        ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
+        ByteString padding = generateInitialPadding(radix, target.length(), tweak.length, leftSideLength);
 
         int[] left = target.left();
         int[] right = target.right();
-        for (int i : ENCRYPT_ROUNDS) {
-            BigInteger targetBlockNumeral = num(right, radix);
-
-            ByteString q = generateQ(tweakString, targetBlockNumeral, lengthOfLeftAfterEncoded, i);
-            ByteString roundBlock = roundFunction(pseudorandomFunction, paddingToEnsureFeistelOutputIsBigger, padding, q);
-            BigInteger roundNumeral = num(Arrays.copyOf(roundBlock.raw(), paddingToEnsureFeistelOutputIsBigger));
-            int partialLength = i % 2 == 0 ? leftSideLength : rightSideLength;
-
+        for (int round : ENCRYPT_ROUNDS) {
+            BigInteger roundNumeral = roundNumeral(num(right, radix), tweak, padding, pseudorandomFunction, lengthOfLeftAfterEncoded, paddingToEnsureFeistelOutputIsBigger, round);
+            int partialLength = round % 2 == 0 ? leftSideLength : rightSideLength;
             BigInteger partialNumeral = num(left, radix).add(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
-
-            int[] partialSide = stringOf(partialLength, radix, partialNumeral);
-
+            int[] partialBlock = stringOf(partialLength, radix, partialNumeral);
             left = right;
-            right = partialSide;
+            right = partialBlock;
         }
         return concatenate(left, right);
     }
 
-
     static int[] decrypt(int[] cipherText, Integer radix, byte[] tweak, PseudorandomFunction pseudorandomFunction) {
         IntString target = new IntString(cipherText);
-        ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
         int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
-        ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
+        ByteString padding = generateInitialPadding(radix, target.length(), tweak.length, leftSideLength);
 
         int[] left = target.left();
         int[] right = target.right();
         for (int round : DECRYPT_ROUNDS) {
-            BigInteger targetBlockNumeral = num(left, radix);
-
-            ByteString q = generateQ(tweakString, targetBlockNumeral, lengthOfLeftAfterEncoded, round);
-            ByteString roundBlock = roundFunction(pseudorandomFunction, paddingToEnsureFeistelOutputIsBigger, padding, q);
-            BigInteger roundNumeral = num(Arrays.copyOf(roundBlock.raw(), paddingToEnsureFeistelOutputIsBigger));
+            BigInteger roundNumeral = roundNumeral(num(left, radix), tweak, padding, pseudorandomFunction, lengthOfLeftAfterEncoded, paddingToEnsureFeistelOutputIsBigger, round);
             int partialLength = round % 2 == 0 ? leftSideLength : rightSideLength;
-
             BigInteger partialNumeral = num(right, radix).subtract(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
-
             int[] partialBlock = stringOf(partialLength, radix, partialNumeral);
-
             right = left;
             left = partialBlock;
         }
         return concatenate(left, right);
+    }
+
+    private static BigInteger roundNumeral(BigInteger targetBlockNumeral, byte[] tweak, ByteString padding, PseudorandomFunction pseudorandomFunction, int lengthOfLeftAfterEncoded, int paddingToEnsureFeistelOutputIsBigger, int round) {
+        ByteString q = generateQ(new ByteString(tweak), targetBlockNumeral, lengthOfLeftAfterEncoded, round);
+        ByteString roundBlock = roundFunction(pseudorandomFunction, paddingToEnsureFeistelOutputIsBigger, padding, q);
+        return num(Arrays.copyOf(roundBlock.raw(), paddingToEnsureFeistelOutputIsBigger));
     }
 
     private static ByteString roundFunction(PseudorandomFunction pseudorandomFunction, int paddingToEnsureFeistelOutputIsBigger, ByteString padding, ByteString q) {
