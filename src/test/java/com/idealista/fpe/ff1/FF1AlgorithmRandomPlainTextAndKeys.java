@@ -18,7 +18,7 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
 
     private Integer radix = 0;
     private byte[] key = new byte[0];
-    private byte[] tweak = new byte[0];
+    private byte[] tweak = new byte[] {(byte) 0xEf5, (byte) 0x03, (byte) 0xF9};
     private int[] input = new int[0];
     String values = "";
 
@@ -51,15 +51,12 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(getRandomKeyLength());
         key = keyGenerator.generateKey().getEncoded();
-        tweak = keyGenerator.generateKey().getEncoded();
         radix = getRandomRadix();
         input = randomPlainText();
         values = new StringBuilder()
                 .append("input: ").append(asString(input))
                 .append("\n")
                 .append("key: ").append(asString(key))
-                .append("\n")
-                .append("tweak: ").append(asString(tweak))
                 .append("\n")
                 .append("radix: ").append(radix).toString();
     }
