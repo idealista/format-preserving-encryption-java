@@ -22,4 +22,12 @@ public class ByteString {
     public byte[] raw() {
         return data;
     }
+
+    public byte get(int position) {
+        return data[position];
+    }
+
+    public byte[] getData() {
+        return data;
+    }
 }

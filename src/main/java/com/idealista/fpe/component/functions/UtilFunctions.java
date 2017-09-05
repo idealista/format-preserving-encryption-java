@@ -1,7 +1,8 @@
 package com.idealista.fpe.component.functions;
 
 import java.math.BigInteger;
-import java.util.Arrays;
+
+import com.idealista.fpe.data.ByteString;
 
 public class UtilFunctions {
 
@@ -19,7 +20,7 @@ public class UtilFunctions {
         return Math.log(number) / Math.log(2);
     }
 
-    public static byte[] numberAsArrayOfBytes(int number, int length) {
+    public static ByteString numberAsArrayOfBytes(int number, int length) {
         checkRangeOf(BigInteger.valueOf(number), BigInteger.valueOf(256).pow(length));
         byte[] bytes = new byte[length];
         int transformableNumber = number;
@@ -28,17 +29,17 @@ public class UtilFunctions {
             bytes[i] = (byte) (transformableNumber & 0xFF);
             transformableNumber >>>= 8;
         }
-        return bytes;
+        return new ByteString(bytes);
     }
 
-    public static byte[] numberAsArrayOfBytes(BigInteger number, int length) {
+    public static ByteString numberAsArrayOfBytes(BigInteger number, int length) {
         checkRangeOf(number, BigInteger.valueOf(256).pow(length));
         byte[] bytes = new byte[length];
         byte[] rawNumberAsBytes = number.toByteArray();
         System.arraycopy(rawNumberAsBytes, Math.max(rawNumberAsBytes.length - length, 0), bytes, Math.max(length - rawNumberAsBytes.length, 0),
                 Math.min(rawNumberAsBytes.length, length));
 
-        return bytes;
+        return new ByteString(bytes);
     }
 
     public static byte[] concatenate(byte[] left, byte[] right) {
