@@ -72,7 +72,7 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
     }
 
     private int getRandomTextLength() {
-        int[] anySizes = {1, 5, 14, 25};
+        int[] anySizes = {2, 5, 14, 25};
         int rnd = new Random().nextInt(anySizes.length);
         return anySizes[rnd];
     }
