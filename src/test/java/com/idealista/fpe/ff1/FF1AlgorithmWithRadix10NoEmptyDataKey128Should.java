@@ -39,19 +39,19 @@ public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak, new DefaultPseudarandomFunction(key));
+        int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
         assertThat(input.length, is(cipherText.length));
         assertThat(input, is(not(cipherText)));
-        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak, new DefaultPseudarandomFunction(key))));
+        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
 
     }
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak, new DefaultPseudarandomFunction(key));
+        int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
         assertThat(input.length, is(plainText.length));
         assertThat(input, is(not(plainText)));
-        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak, new DefaultPseudarandomFunction(key))));
+        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
 
     }
 

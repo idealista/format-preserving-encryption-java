@@ -15,7 +15,7 @@ public class DefaultPseudarandomFunction implements PseudorandomFunction {
         this.key = key;
     }
 
-    public byte[] apply(byte[] plain, byte[] key) {
+    public byte[] apply(byte[] plain) {
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
             byte[] initializationVector = new byte[16];
