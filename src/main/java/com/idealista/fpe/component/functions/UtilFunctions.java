@@ -5,22 +5,22 @@ import java.util.Arrays;
 
 public class UtilFunctions {
 
-    private static final String NUMBER_IS_OUT_OF_RANGE = "number is out of range: [0, + %s )";
+    private static final String NUMBER_IS_OUT_OF_RANGE = "number (%s) is out of range: [0, + %s )";
 
     private UtilFunctions(){}
 
     static void checkRangeOf(BigInteger number, BigInteger upperLimit) {
         if (number.compareTo(BigInteger.ZERO) < 0 || number.compareTo(upperLimit) >= 0)
-            throw new IllegalArgumentException(String.format(NUMBER_IS_OUT_OF_RANGE, upperLimit));
+            throw new IllegalArgumentException(String.format(NUMBER_IS_OUT_OF_RANGE, number, upperLimit));
     }
 
-    public static int log(int number) {
+    public static double log(int number) {
         checkRangeOf(BigInteger.valueOf(number), BigInteger.valueOf(Integer.MAX_VALUE));
-        return (int) (Math.log(number) / Math.log(2));
+        return Math.log(number) / Math.log(2);
     }
 
     public static byte[] numberAsArrayOfBytes(int number, int length) {
-        checkRangeOf(BigInteger.valueOf(number), BigInteger.valueOf(Integer.MAX_VALUE));
+        checkRangeOf(BigInteger.valueOf(number), BigInteger.valueOf(256).pow(length));
         byte[] bytes = new byte[length];
         int transformableNumber = number;
         for (int i = length - 1; i >= 0 ; i--) {
@@ -30,6 +30,17 @@ public class UtilFunctions {
         }
         return bytes;
     }
+
+    public static byte[] numberAsArrayOfBytes(BigInteger number, int length) {
+        checkRangeOf(number, BigInteger.valueOf(256).pow(length));
+        byte[] bytes = new byte[length];
+        byte[] rawNumberAsBytes = number.toByteArray();
+        System.arraycopy(rawNumberAsBytes, Math.max(rawNumberAsBytes.length - length, 0), bytes, Math.max(length - rawNumberAsBytes.length, 0),
+                Math.min(rawNumberAsBytes.length, length));
+
+        return bytes;
+    }
+
     public static byte[] bitstring(boolean bit, int s) {
         // validate s
         if (s < 1)
