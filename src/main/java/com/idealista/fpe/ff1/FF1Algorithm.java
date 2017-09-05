@@ -55,7 +55,7 @@ public class FF1Algorithm {
     }
 
 
-    public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public static int[] decrypt(int[] cipherText, Integer radix, byte[] key, byte[] tweak, PseudorandomFunction pseudorandomFunction) throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
         int textLength = cipherText.length;
         int tweakLength = tweak.length;
         int leftSideLength = (int) Math.floor(textLength / 2.0);
@@ -69,7 +69,7 @@ public class FF1Algorithm {
             byte[] Q = concatenate(tweak, numberAsArrayOfBytes(0, mod(-tweakLength - b - 1, 16)));
             Q = concatenate(Q, numberAsArrayOfBytes(i, 1));
             Q = concatenate(Q, numberAsArrayOfBytes(num(left, radix), b));
-            byte[] R = PRF(concatenate(padding, Q), key);
+            byte[] R = pseudorandomFunction.apply(concatenate(padding, Q), key);
             byte[] S = R;
             for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
                 S = concatenate(S, ciph(key, xor(R, numberAsArrayOfBytes(j, 16))));

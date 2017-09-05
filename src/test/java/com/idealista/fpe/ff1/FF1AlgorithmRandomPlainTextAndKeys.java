@@ -36,13 +36,13 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak, new DefaultPseudarandomFunction());
         assertThat(input.length, is(cipherText.length));
         assertThat(input, is(not(cipherText)));
-        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak)));
+        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, key, tweak, new DefaultPseudarandomFunction())));
 
     }
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak);
+        int[] plainText = FF1Algorithm.decrypt(input, radix, key, tweak, new DefaultPseudarandomFunction());
         assertThat(input.length, is(plainText.length));
         assertThat(input, is(not(plainText)));
         assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, key, tweak, new DefaultPseudarandomFunction())));
