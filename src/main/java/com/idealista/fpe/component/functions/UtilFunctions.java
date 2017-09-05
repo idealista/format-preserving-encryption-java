@@ -41,21 +41,6 @@ public class UtilFunctions {
         return bytes;
     }
 
-    public static byte[] bitstring(boolean bit, int s) {
-        // validate s
-        if (s < 1)
-            throw new IllegalArgumentException("s must be a positive integer");
-        if (s % 8 != 0)
-            throw new IllegalArgumentException("s must be a multiple of 8: " + s);
-
-        byte[] string = new byte[s / 8];
-
-        Arrays.fill(string, bit ? (byte) 0xFF : (byte) 0x00);
-
-        return string;
-    }
-
-
     public static byte[] concatenate(byte[] left, byte[] right) {
         byte[] result = new byte[left.length + right.length];
         System.arraycopy(left, 0, result, 0, left.length);
