@@ -20,6 +20,7 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
     private byte[] key = new byte[0];
     private byte[] tweak = new byte[0];
     private int[] input = new int[0];
+    String values = "";
 
 
     @Test
@@ -27,9 +28,9 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         for (int i=0; i<100; i++) {
             generateValues();
             int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-            assertThat(input.length, is(cipherText.length));
-            assertThat(input, is(not(cipherText)));
-            assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
+            assertThat(values, input.length, is(cipherText.length));
+            assertThat(values, input, is(not(cipherText)));
+            assertThat(values, input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
         }
 
     }
@@ -39,9 +40,9 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         for (int i=0; i<100; i++) {
             generateValues();
             int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-            assertThat(input.length, is(plainText.length));
-            assertThat(input, is(not(plainText)));
-            assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
+            assertThat(values, input.length, is(plainText.length));
+            assertThat(values, input, is(not(plainText)));
+            assertThat(values, input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
         }
 
     }
@@ -53,6 +54,14 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         tweak = keyGenerator.generateKey().getEncoded();
         radix = getRandomRadix();
         input = randomPlainText();
+        values = new StringBuilder()
+                .append("input: ").append(asString(input))
+                .append("\n")
+                .append("key: ").append(asString(key))
+                .append("\n")
+                .append("tweak: ").append(asString(tweak))
+                .append("\n")
+                .append("radix: ").append(radix).toString();
     }
 
     private int getRandomKeyLength() {
@@ -82,6 +91,26 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
         int[] anySizes = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
         int rnd = new Random().nextInt(anySizes.length);
         return anySizes[rnd];
+    }
+
+
+    private String asString(int[] value) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (int item : value) {
+            builder.append(item).append(", ");
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+    private String asString(byte[] value) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (byte item : value) {
+            builder.append(item).append(", ");
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 
