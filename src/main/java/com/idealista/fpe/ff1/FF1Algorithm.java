@@ -14,30 +14,34 @@ import com.idealista.fpe.data.IntString;
 
 class FF1Algorithm {
 
+    private static final int[] DECRYPT_ROUNDS = new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+    private static final int[] ENCRYPT_ROUNDS = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    private FF1Algorithm (){}
+
     static int[] encrypt(int[] plainText, Integer radix, byte[] tweak, PseudorandomFunction pseudorandomFunction) {
         IntString target = new IntString(plainText);
         ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
-        int[] left = target.left();
-        int[] right = target.right();
         int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
         ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
 
-        for (int i = 0; i < 10; i++) {
-            BigInteger targetSideNumeral = num(right, radix);
-            ByteString q = generateQ(tweakString, targetSideNumeral, lengthOfLeftAfterEncoded, i);
-            byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw());
-            ByteString S = new ByteString(R);
-            for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-                S = S.concatenate(new ByteString(pseudorandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16).getData()))));
-            }
-            BigInteger y = num(Arrays.copyOf(S.raw(), paddingToEnsureFeistelOutputIsBigger));
-            int m = i % 2 == 0 ? leftSideLength : rightSideLength;
-            BigInteger c = num(left, radix).add(y).mod(BigInteger.valueOf(radix).pow(m));
+        int[] left = target.left();
+        int[] right = target.right();
+        for (int i : ENCRYPT_ROUNDS) {
+            BigInteger targetBlockNumeral = num(right, radix);
 
-            int[] partialSide = stringOf(m, radix, c);
+            ByteString q = generateQ(tweakString, targetBlockNumeral, lengthOfLeftAfterEncoded, i);
+            ByteString roundBlock = roundFunction(pseudorandomFunction, paddingToEnsureFeistelOutputIsBigger, padding, q);
+            BigInteger roundNumeral = num(Arrays.copyOf(roundBlock.raw(), paddingToEnsureFeistelOutputIsBigger));
+            int partialLength = i % 2 == 0 ? leftSideLength : rightSideLength;
+
+            BigInteger partialNumeral = num(left, radix).add(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
+
+            int[] partialSide = stringOf(partialLength, radix, partialNumeral);
+
             left = right;
             right = partialSide;
         }
@@ -50,30 +54,37 @@ class FF1Algorithm {
         ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
-        int[] left = target.left();
-        int[] right = target.right();
         int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
         ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
 
-        for (int i = 9; i >= 0; i--) {
-            BigInteger targetSideNumeral = num(left, radix);
-            ByteString q = generateQ(tweakString, targetSideNumeral, lengthOfLeftAfterEncoded, i);
-            byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw());
-            byte[] S = R;
-            for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-                S = concatenate(S, pseudorandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16).getData())));
-            }
-            S = Arrays.copyOf(S, paddingToEnsureFeistelOutputIsBigger);
-            BigInteger y = num(S);
-            int m = i % 2 == 0 ? leftSideLength : rightSideLength;
-            BigInteger c = num(right, radix).subtract(y).mod(BigInteger.valueOf(radix).pow(m));
+        int[] left = target.left();
+        int[] right = target.right();
+        for (int round : DECRYPT_ROUNDS) {
+            BigInteger targetBlockNumeral = num(left, radix);
 
-            int[] partialSide = stringOf(m, radix, c);
+            ByteString q = generateQ(tweakString, targetBlockNumeral, lengthOfLeftAfterEncoded, round);
+            ByteString roundBlock = roundFunction(pseudorandomFunction, paddingToEnsureFeistelOutputIsBigger, padding, q);
+            BigInteger roundNumeral = num(Arrays.copyOf(roundBlock.raw(), paddingToEnsureFeistelOutputIsBigger));
+            int partialLength = round % 2 == 0 ? leftSideLength : rightSideLength;
+
+            BigInteger partialNumeral = num(right, radix).subtract(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
+
+            int[] partialBlock = stringOf(partialLength, radix, partialNumeral);
+
             right = left;
-            left = partialSide;
+            left = partialBlock;
         }
         return concatenate(left, right);
+    }
+
+    private static ByteString roundFunction(PseudorandomFunction pseudorandomFunction, int paddingToEnsureFeistelOutputIsBigger, ByteString padding, ByteString q) {
+        byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw());
+        ByteString S = new ByteString(R);
+        for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
+            S = S.concatenate(new ByteString(pseudorandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16).getData()))));
+        }
+        return S;
     }
 
     private static ByteString generateQ(ByteString tweak, BigInteger targetSideNumeral, int lengthOfLeftAfterEncoded, int round) {
