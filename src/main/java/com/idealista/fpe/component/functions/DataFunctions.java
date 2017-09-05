@@ -4,11 +4,11 @@ import java.math.BigInteger;
 
 import com.idealista.fpe.data.ByteString;
 
-public class UtilFunctions {
+public class DataFunctions {
 
     private static final String NUMBER_IS_OUT_OF_RANGE = "number (%s) is out of range: [0, + %s )";
 
-    private UtilFunctions(){}
+    private DataFunctions(){}
 
     static void checkRangeOf(BigInteger number, BigInteger upperLimit) {
         if (number.compareTo(BigInteger.ZERO) < 0 || number.compareTo(upperLimit) >= 0)
@@ -42,13 +42,6 @@ public class UtilFunctions {
         return new ByteString(bytes);
     }
 
-    public static byte[] concatenate(byte[] left, byte[] right) {
-        byte[] result = new byte[left.length + right.length];
-        System.arraycopy(left, 0, result, 0, left.length);
-        System.arraycopy(right, 0, result, left.length, right.length);
-        return result;
-    }
-
     public static int[] concatenate(int[] left, int[] right) {
         int[] result = new int[left.length + right.length];
         System.arraycopy(left, 0, result, 0, left.length);
@@ -61,7 +54,6 @@ public class UtilFunctions {
         for (int i = 0; i < right.length; i++) {
             result[i] = (byte) (left[i] ^ right[i]);
         }
-
         return result;
     }
 

@@ -2,7 +2,7 @@ package com.idealista.fpe.ff1;
 
 import static com.idealista.fpe.component.functions.ComponentFunctions.num;
 import static com.idealista.fpe.component.functions.ComponentFunctions.stringOf;
-import static com.idealista.fpe.component.functions.UtilFunctions.*;
+import static com.idealista.fpe.component.functions.DataFunctions.*;
 import static java.lang.Math.ceil;
 
 import java.math.BigInteger;

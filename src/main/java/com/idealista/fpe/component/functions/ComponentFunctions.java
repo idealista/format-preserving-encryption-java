@@ -19,7 +19,7 @@ public class ComponentFunctions {
 
     public static int[] stringOf(Integer length, Integer radix, BigInteger number) {
         BigInteger base = BigInteger.valueOf(radix);
-        UtilFunctions.checkRangeOf(number, base.pow(length));
+        DataFunctions.checkRangeOf(number, base.pow(length));
         int[] result = new int[length];
         BigInteger workingNumber = number;
         for (int i = 1; i <= length; i++) {
