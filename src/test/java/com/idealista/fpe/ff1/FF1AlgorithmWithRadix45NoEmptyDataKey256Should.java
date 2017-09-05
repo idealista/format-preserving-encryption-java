@@ -42,7 +42,6 @@ public class FF1AlgorithmWithRadix45NoEmptyDataKey256Should {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        System.out.println(key.length);
         int[] cipherText = FF1Algorithm.encrypt(input, radix, key, tweak);
         assertThat(input.length, is(cipherText.length));
         assertThat(input, is(not(cipherText)));
