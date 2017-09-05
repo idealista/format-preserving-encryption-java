@@ -20,6 +20,7 @@ public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
         return Arrays.asList(
                 new int[] {1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2},
                 new int[] {4, 4, 5, 4, 7, 0, 9, 4, 3, 2},
+                new int[] {1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2},
                 new int[] {7, 5, 6}
         );
     }

@@ -23,10 +23,6 @@ public class ByteString {
         return data;
     }
 
-    public byte get(int position) {
-        return data[position];
-    }
-
     public byte[] getData() {
         return data;
     }
