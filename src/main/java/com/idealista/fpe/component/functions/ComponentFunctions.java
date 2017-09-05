@@ -40,12 +40,4 @@ public class ComponentFunctions {
         return result;
     }
 
-    public static byte[] ciph(byte[] key, byte[] plain) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException {
-        byte[] cipherText;
-        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
-        cipherText = cipher.doFinal(plain);
-        return cipherText;
-    }
-
 }

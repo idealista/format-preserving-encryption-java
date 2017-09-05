@@ -38,7 +38,7 @@ public class FF1Algorithm {
             byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw(), key);
             ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-                S = S.concatenate(new ByteString(ciph(key, xor(R, numberAsArrayOfBytes(j, 16)))));
+                S = S.concatenate(new ByteString(pseudorandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16)), key)));
             }
             BigInteger y = num(Arrays.copyOf(S.raw(), paddingToEnsureFeistelOutputIsBigger));
             int m = i % 2 == 0 ? leftSideLength : rightSideLength;
@@ -72,7 +72,7 @@ public class FF1Algorithm {
             byte[] R = pseudorandomFunction.apply(concatenate(padding, Q), key);
             byte[] S = R;
             for (int j = 1; j <= ceil(d / 16.0) - 1; j++) {
-                S = concatenate(S, ciph(key, xor(R, numberAsArrayOfBytes(j, 16))));
+                S = concatenate(S, pseudorandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16)), key));
             }
             S = Arrays.copyOf(S, d);
             BigInteger y = num(S);
