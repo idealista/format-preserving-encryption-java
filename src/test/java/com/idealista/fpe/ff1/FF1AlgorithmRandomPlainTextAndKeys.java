@@ -48,7 +48,7 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
     }
 
     private int getRandomKeyLength() {
-        int[] keySizes = {128, 256, 512};
+        int[] keySizes = {128, 192, 256};
         int rnd = new Random().nextInt(keySizes.length);
         return keySizes[rnd];
     }
