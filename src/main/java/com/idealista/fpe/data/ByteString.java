@@ -15,7 +15,7 @@ public class ByteString {
         return new ByteString(result);
     }
 
-    private int length() {
+    public int length() {
         return data.length;
     }
 
