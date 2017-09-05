@@ -21,32 +21,38 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
     private byte[] tweak = new byte[0];
     private int[] input = new int[0];
 
-    @Before
-    public void setUp () throws Exception {
+
+    @Test
+    public void given_a_plain_text_return_the_cipher_text () throws Exception {
+        for (int i=0; i<100; i++) {
+            generateValues();
+            int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
+            assertThat(input.length, is(cipherText.length));
+            assertThat(input, is(not(cipherText)));
+            assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
+        }
+
+    }
+
+    @Test
+    public void given_a_cipher_text_return_the_plain_text () throws Exception {
+        for (int i=0; i<100; i++) {
+            generateValues();
+            int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
+            assertThat(input.length, is(plainText.length));
+            assertThat(input, is(not(plainText)));
+            assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
+        }
+
+    }
+
+    private void generateValues() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(getRandomKeyLength());
         key = keyGenerator.generateKey().getEncoded();
         tweak = keyGenerator.generateKey().getEncoded();
         radix = getRandomRadix();
         input = randomPlainText();
-    }
-
-    @Test
-    public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-        assertThat(input.length, is(cipherText.length));
-        assertThat(input, is(not(cipherText)));
-        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
-
-    }
-
-    @Test
-    public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-        assertThat(input.length, is(plainText.length));
-        assertThat(input, is(not(plainText)));
-        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
-
     }
 
     private int getRandomKeyLength() {
