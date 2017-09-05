@@ -16,18 +16,18 @@ class FF1Algorithm {
 
     static int[] encrypt(int[] plainText, Integer radix, byte[] tweak, PseudorandomFunction pseudorandomFunction) {
         IntString target = new IntString(plainText);
-        int tweakLength = tweak.length;
+        ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
         int[] left = target.left();
         int[] right = target.right();
-        int lengthOfLeftAfterEncoded = lengthOfLeftAfterEncoded(radix, rightSideLength);
+        int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
-        ByteString padding = generateInitialPadding(radix, target.length(), tweakLength, leftSideLength);
+        ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
 
         for (int i = 0; i < 10; i++) {
             BigInteger targetSideNumeral = num(right, radix);
-            ByteString q = generateQ(new ByteString(tweak), targetSideNumeral, lengthOfLeftAfterEncoded, i);
+            ByteString q = generateQ(tweakString, targetSideNumeral, lengthOfLeftAfterEncoded, i);
             byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw());
             ByteString S = new ByteString(R);
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
@@ -44,25 +44,21 @@ class FF1Algorithm {
         return concatenate(left, right);
     }
 
-    private static int lengthOfLeftAfterEncoded(Integer radix, int rightSideLength) {
-        return (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
-    }
-
 
     static int[] decrypt(int[] cipherText, Integer radix, byte[] tweak, PseudorandomFunction pseudorandomFunction) {
         IntString target = new IntString(cipherText);
-        int tweakLength = tweak.length;
+        ByteString tweakString = new ByteString(tweak);
         int leftSideLength = target.leftSideLength();
         int rightSideLength = target.rightSideLength();
         int[] left = target.left();
         int[] right = target.right();
-        int lengthOfLeftAfterEncoded = lengthOfLeftAfterEncoded(radix, rightSideLength);
+        int lengthOfLeftAfterEncoded = (int) ceil(ceil(rightSideLength * log(radix)) / 8.0);
         int paddingToEnsureFeistelOutputIsBigger = (int) (4 * ceil(lengthOfLeftAfterEncoded / 4.0) + 4);
-        ByteString padding = generateInitialPadding(radix, target.length(), tweakLength, leftSideLength);
+        ByteString padding = generateInitialPadding(radix, target.length(), tweakString.length(), leftSideLength);
 
         for (int i = 9; i >= 0; i--) {
             BigInteger targetSideNumeral = num(left, radix);
-            ByteString q = generateQ(new ByteString(tweak), targetSideNumeral, lengthOfLeftAfterEncoded, i);
+            ByteString q = generateQ(tweakString, targetSideNumeral, lengthOfLeftAfterEncoded, i);
             byte[] R = pseudorandomFunction.apply(padding.concatenate(q).raw());
             byte[] S = R;
             for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
