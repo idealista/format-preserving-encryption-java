@@ -1,4 +1,4 @@
-package com.idealista.fpe.ff1;
+package com.idealista.fpe.algorithm.ff1;
 
 import static com.idealista.fpe.component.functions.ComponentFunctions.num;
 import static com.idealista.fpe.component.functions.ComponentFunctions.stringOf;

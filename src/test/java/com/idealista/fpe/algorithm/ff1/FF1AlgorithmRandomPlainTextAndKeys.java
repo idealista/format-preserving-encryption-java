@@ -1,4 +1,4 @@
-package com.idealista.fpe.ff1;
+package com.idealista.fpe.algorithm.ff1;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -8,7 +8,6 @@ import java.util.Random;
 
 import javax.crypto.KeyGenerator;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
