@@ -5,7 +5,6 @@ import org.junit.Test;
 public class BuilValidatorShould {
     /*
      - null protection for all inputs
-     - key is an AES Key, must be 16, 24 or 32 bytes length
      -  tweak should be lower that maxlen
      -  n ∈ [minlen .. maxlen];
      -  0 < plainText[i] <= radix
