@@ -1,14 +1,10 @@
 package com.idealista.fpe.builder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 
 public class BuilValidatorShould {
     /*
      - null protection for all inputs
-     - radix ∈ [ 2 .. 2 ^ 16 ] && radix ^ minlen >= 100
-     - 2 <= minlen < maxlen <= 2^32
      - key is an AES Key, must be 16, 24 or 32 bytes length
      -  tweak should be lower that maxlen
      -  n ∈ [minlen .. maxlen];
@@ -26,6 +22,11 @@ public class BuilValidatorShould {
     }
 
     @Test (expected = IllegalArgumentException.class)
+    public void throws_an_exception_when_radix_to_minLength_is_greater_than_one_hundred () {
+        BuildValidator.radixToMinLength(11, 2);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
     public void throws_an_exception_when_min_length_is_less_than_two () {
         int anyNumber = 1234;
         BuildValidator.textSize(1, anyNumber);
@@ -33,9 +34,9 @@ public class BuilValidatorShould {
 
     @Test (expected = IllegalArgumentException.class)
     public void throws_an_exception_when_min_length_is_greater_or_equal_than_maxLength () {
-        int anyMax = 1234;
-        int minLength = anyMax + 10;
-        BuildValidator.textSize(minLength, anyMax);
+        int anyLoweNumber = 1234;
+        int minLength = anyLoweNumber + 10;
+        BuildValidator.textSize(minLength, anyLoweNumber);
     }
 
 }

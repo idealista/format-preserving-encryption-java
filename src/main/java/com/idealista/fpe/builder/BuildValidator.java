@@ -13,4 +13,9 @@ public class BuildValidator {
         if (minLength < 2  || minLength >= maxLength)
             throw new IllegalArgumentException("minLength not in: [ 2 .." + maxLength + " )");
     }
+
+    public static void radixToMinLength(int radix, int minLength) {
+        if (Math.pow(radix, minLength) > 100)
+            throw new IllegalArgumentException("radix ^ minLength is greater than 100");
+    }
 }
