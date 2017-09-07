@@ -1,6 +1,4 @@
-package com.idealista.fpe.builder;
-
-import java.util.Map;
+package com.idealista.fpe.builder.validate;
 
 public class BuildValidator {
 

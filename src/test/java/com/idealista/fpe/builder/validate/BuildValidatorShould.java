@@ -1,4 +1,4 @@
-package com.idealista.fpe.builder;
+package com.idealista.fpe.builder.validate;
 
 import org.junit.Test;
 
