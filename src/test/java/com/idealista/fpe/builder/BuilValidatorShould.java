@@ -38,4 +38,11 @@ public class BuilValidatorShould {
         BuildValidator.textSize(minLength, anyLoweNumber);
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void throws_an_exception_when_tweak_length_is_greater_than_maxLength () {
+        int aMaxLength = 10;
+        byte[] anyLargeTweak = new byte[aMaxLength * 2];
+        BuildValidator.tweakSize(anyLargeTweak, aMaxLength);
+    }
+
 }

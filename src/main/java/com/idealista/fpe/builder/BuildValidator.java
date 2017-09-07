@@ -18,4 +18,9 @@ public class BuildValidator {
         if (Math.pow(radix, minLength) > 100)
             throw new IllegalArgumentException("radix ^ minLength is greater than 100");
     }
+
+    public static void tweakSize(byte[] tweak, int maxLength) {
+        if (tweak.length > maxLength)
+            throw new IllegalArgumentException("tweak length should be less than maxLength");
+    }
 }
