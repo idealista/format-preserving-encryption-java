@@ -1,15 +1,19 @@
 package com.idealista.fpe.ff1;
 
+import static com.idealista.fpe.component.functions.DataFunctions.concatenate;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 
+import javax.xml.crypto.Data;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import com.idealista.fpe.component.functions.DataFunctions;
 import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
 
 @RunWith(Parameterized.class)
@@ -17,11 +21,21 @@ public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
 
     @Parameterized.Parameters(name = "{index}: plain text is {0}")
     public static Iterable<int[]> data() {
+        int[] allNumbers = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 0, 9};
+        int[] oneHundredItems = concatenate(allNumbers,
+                concatenate(allNumbers,
+                        concatenate(allNumbers,
+                                concatenate(allNumbers,
+                                        concatenate(allNumbers,
+                                                concatenate(allNumbers,
+                                                        concatenate(allNumbers,
+                                                                concatenate(allNumbers,
+                                                                        concatenate(allNumbers, allNumbers)))))))));
         return Arrays.asList(
                 new int[] {1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2},
                 new int[] {4, 4, 5, 4, 7, 0, 9, 4, 3, 2},
-                new int[] {1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 4, 3, 2},
-                new int[] {7, 5, 6}
+                new int[] {7, 5, 6},
+                oneHundredItems
         );
     }
 
