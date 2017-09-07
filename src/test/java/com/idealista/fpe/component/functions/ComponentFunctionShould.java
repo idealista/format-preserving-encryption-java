@@ -1,7 +1,6 @@
 package com.idealista.fpe.component.functions;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.Is.is;
 
 import java.math.BigInteger;
 
