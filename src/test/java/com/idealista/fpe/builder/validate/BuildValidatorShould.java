@@ -23,14 +23,14 @@ public class BuildValidatorShould {
     @Test (expected = IllegalArgumentException.class)
     public void throws_an_exception_when_min_length_is_less_than_two () {
         int anyNumber = 1234;
-        new BuildValidator(1, 1, anyNumber, new byte[0]).textSize();
+        new BuildValidator(1, 1, anyNumber, new byte[0]).textSizeLimits();
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void throws_an_exception_when_min_length_is_greater_or_equal_than_maxLength () {
         int anyLoweNumber = 1234;
         int minLength = anyLoweNumber + 10;
-        new BuildValidator(1, minLength, anyLoweNumber, new byte[0]).textSize();
+        new BuildValidator(1, minLength, anyLoweNumber, new byte[0]).textSizeLimits();
     }
 
     @Test (expected = IllegalArgumentException.class)

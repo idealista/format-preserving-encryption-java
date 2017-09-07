@@ -14,22 +14,30 @@ public class BuildValidator {
         this.tweak = tweak;
     }
 
-    public void radix() {
+    public void validate () {
+        radix();
+        radixToMinLength();
+        textSizeLimits();
+        tweakSize();
+
+    }
+
+    void radix() {
         if (radix < 2 || radix > Math.pow(2d, 16d))
             throw new IllegalArgumentException("radix not in: [ 2 .. 2 ^ 16 ]");
     }
 
-    public void textSize() {
+    void textSizeLimits() {
         if (minLength < 2  || minLength >= maxLength)
             throw new IllegalArgumentException("minLength not in: [ 2 .." + maxLength + " )");
     }
 
-    public void radixToMinLength() {
+    void radixToMinLength() {
         if (Math.pow(radix, minLength) > 100)
             throw new IllegalArgumentException("radix ^ minLength is greater than 100");
     }
 
-    public void tweakSize() {
+    void tweakSize() {
         if (tweak.length > maxLength)
             throw new IllegalArgumentException("tweak length should be less than maxLength");
     }
