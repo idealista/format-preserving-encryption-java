@@ -25,5 +25,10 @@ public class BuilValidatorShould {
         BuildValidator.radix((int) (Math.pow(2d, 16d) * 2));
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void throws_an_exception_when_min_length_is_less_than_two () {
+        int anyNumber = 1234;
+        BuildValidator.textSize(1, anyNumber);
+    }
 
 }

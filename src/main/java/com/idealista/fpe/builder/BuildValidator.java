@@ -8,4 +8,9 @@ public class BuildValidator {
         if (radix < 2 || radix > Math.pow(2d, 16d))
             throw new IllegalArgumentException("radix not in: [ 2 .. 2 ^ 16 ]");
     }
+
+    public static void textSize(int minLength, int maxLength) {
+        if (minLength < 2)
+            throw new IllegalArgumentException("minLength not in: [ 2 .." + maxLength + " )");
+    }
 }
