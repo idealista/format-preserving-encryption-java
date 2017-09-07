@@ -1,8 +1,6 @@
 package com.idealista.fpe.algorithm.ff1;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
@@ -45,19 +43,18 @@ public class FF1AlgorithmWithRadix45NoEmptyDataKey256Should {
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
         int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-        assertThat(input.length, is(cipherText.length));
-        assertThat(input, is(not(cipherText)));
-        assertThat(input, is(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key))));
+        assertThat(input.length).isEqualTo(cipherText.length);
+        assertThat(input).isNotEqualTo(cipherText);
+        assertThat(input).isEqualTo(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key)));
 
     }
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
         int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
-        assertThat(input.length, is(plainText.length));
-        assertThat(input, is(not(plainText)));
-        assertThat(input, is(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key))));
-
+        assertThat(input.length).isEqualTo(plainText.length);
+        assertThat(input).isNotEqualTo(plainText);
+        assertThat(input).isEqualTo(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key)));
     }
 
 }
