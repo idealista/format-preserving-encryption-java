@@ -1,24 +1,19 @@
 package com.idealista.fpe.component.functions;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
-import java.awt.image.BufferedImage;
 import java.math.BigInteger;
 
-import javax.xml.crypto.Data;
-
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 public class DataFunctionsShould {
 
     @Test
     public void log_given_an_integer_x_grater_than_zero_return_log_base_two_of_x () {
-        assertThat(DataFunctions.log(2), closeTo(1, 0.01));
-        assertThat(DataFunctions.log(4), closeTo(2, 0.01));
-        assertThat(DataFunctions.log(8), closeTo(3, 0.01));
+        assertThat(DataFunctions.log(2)).isCloseTo(1d, within(0.01));
+        assertThat(DataFunctions.log(4)).isCloseTo(2d, within(0.01));
+        assertThat(DataFunctions.log(8)).isCloseTo(3d, within(0.01));
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -31,10 +26,10 @@ public class DataFunctionsShould {
         int[] left = {1, 2};
         int[] right = {3, 4};
         int [] result = DataFunctions.concatenate(left, right);
-        assertThat(result[0], is(left[0]));
-        assertThat(result[1], is(left[1]));
-        assertThat(result[2], is(right[0]));
-        assertThat(result[3], is(right[1]));
+        assertThat(result[0]).isEqualTo(left[0]);
+        assertThat(result[1]).isEqualTo(left[1]);
+        assertThat(result[2]).isEqualTo(right[0]);
+        assertThat(result[3]).isEqualTo(right[1]);
     }
 
     @Test
@@ -42,7 +37,7 @@ public class DataFunctionsShould {
         byte[] left = {(byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01};
         byte[] right = {(byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x01};
         byte[] result = DataFunctions.xor(left, right);
-        assertThat(result, is(new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00}));
+        assertThat(result).isEqualTo(new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00});
     }
 
     @Test
@@ -50,14 +45,14 @@ public class DataFunctionsShould {
         Integer number = 5;
         BigInteger bigNumber = BigInteger.valueOf(5);
         byte[] numberAsByte = new byte[] {(byte) 0x00, (byte) 0x05};
-        assertThat(numberAsByte, is(DataFunctions.numberAsArrayOfBytes(number, 2).raw()));
-        assertThat(numberAsByte, is(DataFunctions.numberAsArrayOfBytes(bigNumber, 2).raw()));
+        assertThat(numberAsByte).isEqualTo(DataFunctions.numberAsArrayOfBytes(number, 2).raw());
+        assertThat(numberAsByte).isEqualTo(DataFunctions.numberAsArrayOfBytes(bigNumber, 2).raw());
     }
 
     @Test
     public void mod_given_a_number_and_a_base_return_representation_of_number_as_base (){
-        assertThat(0, is(DataFunctions.mod(125, 5)));
-        assertThat(3, is(DataFunctions.mod(3, 5)));
+        assertThat(0).isEqualTo(DataFunctions.mod(125, 5));
+        assertThat(3).isEqualTo(DataFunctions.mod(3, 5));
     }
 
     @Test (expected = ArithmeticException.class)
