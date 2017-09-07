@@ -3,12 +3,6 @@ package com.idealista.fpe.builder;
 import org.junit.Test;
 
 public class BuilValidatorShould {
-    /*
-     - null protection for all inputs
-     -  n ∈ [minlen .. maxlen];
-     -  0 < plainText[i] <= radix
-     */
-
 
 
     @Test (expected = IllegalArgumentException.class)
