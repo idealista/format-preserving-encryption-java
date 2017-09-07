@@ -10,7 +10,7 @@ public class BuildValidator {
     }
 
     public static void textSize(int minLength, int maxLength) {
-        if (minLength < 2)
+        if (minLength < 2  || minLength >= maxLength)
             throw new IllegalArgumentException("minLength not in: [ 2 .." + maxLength + " )");
     }
 }

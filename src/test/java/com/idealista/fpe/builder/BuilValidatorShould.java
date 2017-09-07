@@ -31,4 +31,11 @@ public class BuilValidatorShould {
         BuildValidator.textSize(1, anyNumber);
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void throws_an_exception_when_min_length_is_greater_or_equal_than_maxLength () {
+        int anyMax = 1234;
+        int minLength = anyMax + 10;
+        BuildValidator.textSize(minLength, anyMax);
+    }
+
 }
