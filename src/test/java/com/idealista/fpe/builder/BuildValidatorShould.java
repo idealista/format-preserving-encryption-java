@@ -2,7 +2,7 @@ package com.idealista.fpe.builder;
 
 import org.junit.Test;
 
-public class BuilValidatorShould {
+public class BuildValidatorShould {
 
 
     @Test (expected = IllegalArgumentException.class)
