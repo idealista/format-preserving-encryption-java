@@ -1,8 +1,7 @@
 package com.idealista.fpe.algorithm.ff1;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Random;
+import static org.assertj.core.api.Assertions.in;
 
 import javax.crypto.KeyGenerator;
 
@@ -46,65 +45,11 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
 
     private void generateValues() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(getRandomKeyLength());
+        keyGenerator.init(RadomValuesProvider.getRandomKeyLength());
         key = keyGenerator.generateKey().getEncoded();
-        radix = getRandomRadix();
-        input = randomPlainText();
-        values = new StringBuilder()
-                .append("input: ").append(asString(input))
-                .append("\n")
-                .append("key: ").append(asString(key))
-                .append("\n")
-                .append("radix: ").append(radix).toString();
-    }
-
-    private int getRandomKeyLength() {
-        int[] keySizes = {128, 192, 256};
-        int rnd = new Random().nextInt(keySizes.length);
-        return keySizes[rnd];
-    }
-
-
-    private int[] randomPlainText() {
-        int [] a = new int[getRandomTextLength()];
-        Random randomNumbers = new Random();
-        for (int i=0; i<a.length; i++) {
-            a[i] = randomNumbers.nextInt(radix);
-        }
-        return a;
-    }
-
-    private int getRandomTextLength() {
-        int[] anySizes = {2, 5, 14, 25};
-        int rnd = new Random().nextInt(anySizes.length);
-        return anySizes[rnd];
-    }
-
-
-    private int getRandomRadix() {
-        int[] anySizes = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
-        int rnd = new Random().nextInt(anySizes.length);
-        return anySizes[rnd];
-    }
-
-
-    private String asString(int[] value) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for (int item : value) {
-            builder.append(item).append(", ");
-        }
-        builder.append("]");
-        return builder.toString();
-    }
-    private String asString(byte[] value) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for (byte item : value) {
-            builder.append(item).append(", ");
-        }
-        builder.append("]");
-        return builder.toString();
+        radix = RadomValuesProvider.getRandomRadix();
+        input = RadomValuesProvider.randomPlainText(radix);
+        values = RadomValuesProvider.valuesAsString(input, key, radix);
     }
 
 
