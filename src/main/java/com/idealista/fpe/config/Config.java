@@ -7,7 +7,6 @@ import com.idealista.fpe.component.functions.prf.PseudorandomFunction;
 
 public class Config {
 
-    private Integer radix = Defaults.DEFAULT_RADIX;
     private Domain domain = Defaults.DOMAIN;
     private Integer maxLength = Defaults.DEFAULT_MAX_LENGTH;
     private Integer minLength = Defaults.DEFAULT_MIN_LENGTH;
@@ -23,10 +22,6 @@ public class Config {
     public Config(String key, PseudorandomFunction pseudorandomFunction) {
         this.key = key;
         this.pseudorandomFunction = pseudorandomFunction;
-    }
-
-    public Integer getRadix() {
-        return radix;//domain.radix;
     }
 
     public Domain getDomain() {
