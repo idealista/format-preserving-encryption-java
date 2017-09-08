@@ -26,11 +26,7 @@ public class Config {
     }
 
     public Integer getRadix() {
-        return radix;
-    }
-
-    public void setRadix(Integer radix) {
-        this.radix = radix;
+        return radix;//domain.radix;
     }
 
     public Domain getDomain() {
