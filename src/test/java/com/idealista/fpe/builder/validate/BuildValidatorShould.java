@@ -17,7 +17,7 @@ public class BuildValidatorShould {
 
     @Test (expected = IllegalArgumentException.class)
     public void throws_an_exception_when_radix_to_minLength_is_greater_than_one_hundred () {
-        new BuildValidator(11, 2, 0).radixToMinLength();
+        new BuildValidator(8, 2, 0).radixToMinLength();
     }
 
     @Test (expected = IllegalArgumentException.class)
