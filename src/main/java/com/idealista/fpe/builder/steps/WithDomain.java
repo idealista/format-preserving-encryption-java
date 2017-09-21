@@ -1,9 +1,9 @@
 package com.idealista.fpe.builder.steps;
 
-import com.idealista.fpe.config.basic.BasicAlphabetDomain;
+import com.idealista.fpe.config.Domain;
 
 public interface WithDomain {
-    WithPseudoRandomFunction withDomain(BasicAlphabetDomain basicAlphabetDomain);
+    WithPseudoRandomFunction withDomain(Domain basicAlphabetDomain);
 
     WithPseudoRandomFunction withDefaultDomain();
 }

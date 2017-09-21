@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.idealista.fpe.FormatPreservingEncryption;
 import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
+import com.idealista.fpe.config.LengthRange;
 import com.idealista.fpe.config.basic.BasicAlphabetDomain;
 
 public class FormatPreservingEncryptionBuilderShould {
@@ -23,7 +24,7 @@ public class FormatPreservingEncryptionBuilderShould {
                 .ff1Implementation()
                 .withDomain(new BasicAlphabetDomain())
                 .withPseudoRandomFunction(new DefaultPseudarandomFunction(anyKey))
-                .withLengthRange(1, 2)
+                .withLengthRange(new LengthRange(2, 20))
                 .build();
 
         assertThat(formatPreservingEncryption).isNotNull();
