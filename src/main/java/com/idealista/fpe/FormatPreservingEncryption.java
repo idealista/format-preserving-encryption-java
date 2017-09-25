@@ -19,14 +19,14 @@ public class FormatPreservingEncryption {
     }
 
     public String encrypt(String plainText, byte[] tweak) {
-        int[] numeralPlainText = selectedDomain.textToIntTransformer().transform(plainText);
+        int[] numeralPlainText = selectedDomain.transform(plainText);
         int[] numeralCipher = cipherer.encrypt(numeralPlainText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
-        return selectedDomain.intToTextTransformer().transform(numeralCipher);
+        return selectedDomain.transform(numeralCipher);
     }
 
     public String decrypt(String cipherText, byte[] tweak) {
-        int[] numeralCipherText = selectedDomain.textToIntTransformer().transform(cipherText);
+        int[] numeralCipherText = selectedDomain.transform(cipherText);
         int[] numeralPlainText = cipherer.dencrypt(numeralCipherText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
-        return selectedDomain.intToTextTransformer().transform(numeralPlainText);
+        return selectedDomain.transform(numeralPlainText);
     }
 }

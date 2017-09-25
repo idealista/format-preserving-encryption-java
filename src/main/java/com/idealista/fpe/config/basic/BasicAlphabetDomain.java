@@ -2,8 +2,6 @@ package com.idealista.fpe.config.basic;
 
 import com.idealista.fpe.config.Alphabet;
 import com.idealista.fpe.config.Domain;
-import com.idealista.fpe.transformer.IntToTextTransformer;
-import com.idealista.fpe.transformer.TextToIntTransformer;
 
 public class BasicAlphabetDomain implements Domain{
 
@@ -17,12 +15,12 @@ public class BasicAlphabetDomain implements Domain{
     }
 
     @Override
-    public TextToIntTransformer textToIntTransformer() {
-        return transformations;
+    public int[] transform(String data) {
+        return transformations.transform(data);
     }
 
     @Override
-    public IntToTextTransformer intToTextTransformer() {
-        return transformations;
+    public String transform(int[] data) {
+        return transformations.transform(data);
     }
 }
