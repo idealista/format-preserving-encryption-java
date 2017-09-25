@@ -19,46 +19,56 @@ public class FormatPreservingEncryptionBuilder {
 
 
     public static WithDomain ff1Implementation() {
-        return new WithDomainStep();
+        return new WithDomainStep(ff1);
     }
 
     private static class WithDomainStep implements WithDomain {
 
+        private com.idealista.fpe.algorithm.Cipherer cipherer;
+
+        public WithDomainStep(com.idealista.fpe.algorithm.Cipherer cipherer) {
+            this.cipherer = cipherer;
+        }
+
         @Override
         public WithPseudoRandomFunction withDomain(Domain domain) {
-            return new WithPseudoRandomFunctionStep(domain);
+            return new WithPseudoRandomFunctionStep(cipherer, domain);
         }
 
         @Override
         public WithPseudoRandomFunction withDefaultDomain() {
-            return new WithPseudoRandomFunctionStep(Defaults.DOMAIN);
+            return withDomain(Defaults.DOMAIN);
         }
     }
 
     private static class WithPseudoRandomFunctionStep implements WithPseudoRandomFunction {
 
+        private com.idealista.fpe.algorithm.Cipherer cipherer;
         private final Domain selectedDomain;
 
-        private WithPseudoRandomFunctionStep(Domain selectedDomain) {
+        private WithPseudoRandomFunctionStep(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain) {
+            this.cipherer = cipherer;
             this.selectedDomain = selectedDomain;
         }
 
         @Override
         public WithLengthRange withPseudoRandomFunction(PseudorandomFunction pseudoRandomFunction) {
-            return new WithLengthRangeStep(selectedDomain, pseudoRandomFunction);
+            return new WithLengthRangeStep(cipherer, selectedDomain, pseudoRandomFunction);
         }
 
         @Override
         public WithLengthRange withDefaultPseudoRandomFunction(byte[] key) {
-            return new WithLengthRangeStep(selectedDomain, new DefaultPseudarandomFunction(key));
+            return withPseudoRandomFunction(new DefaultPseudarandomFunction(key));
         }
     }
 
     private static class WithLengthRangeStep implements WithLengthRange {
+        private final com.idealista.fpe.algorithm.Cipherer cipherer;
         private final Domain selectedDomain;
         private final PseudorandomFunction selectedPRF;
 
-        private WithLengthRangeStep(Domain selectedDomain, PseudorandomFunction selectedPRF) {
+        private WithLengthRangeStep(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudorandomFunction selectedPRF) {
+            this.cipherer = cipherer;
             this.selectedDomain = selectedDomain;
             this.selectedPRF = selectedPRF;
         }
@@ -66,7 +76,7 @@ public class FormatPreservingEncryptionBuilder {
 
         @Override
         public Builder withLengthRange(LengthRange lengthRange) {
-            return new TheBuilder(selectedDomain, selectedPRF, lengthRange);
+            return new TheBuilder(cipherer, selectedDomain, selectedPRF, lengthRange);
         }
 
         @Override
@@ -76,11 +86,13 @@ public class FormatPreservingEncryptionBuilder {
     }
 
     private static class TheBuilder implements Builder{
+        private final com.idealista.fpe.algorithm.Cipherer cipherer;
         private final Domain selectedDomain;
         private final PseudorandomFunction selectedPRF;
         private final LengthRange lengthRange;
 
-        private TheBuilder(Domain selectedDomain, PseudorandomFunction selectedPRF, LengthRange lengthRange) {
+        private TheBuilder(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudorandomFunction selectedPRF, LengthRange lengthRange) {
+            this.cipherer = cipherer;
             this.selectedDomain = selectedDomain;
             this.selectedPRF = selectedPRF;
             this.lengthRange = lengthRange;
@@ -89,7 +101,7 @@ public class FormatPreservingEncryptionBuilder {
         @Override
         public FormatPreservingEncryption build() {
             new BuildValidator(selectedDomain.alphabet().radix(), lengthRange.min(), lengthRange.max()).validate();
-            return new FormatPreservingEncryption();
+            return new FormatPreservingEncryption(cipherer, selectedDomain, selectedPRF, lengthRange);
         }
     }
 }
