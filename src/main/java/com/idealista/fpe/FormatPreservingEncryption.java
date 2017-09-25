@@ -18,11 +18,15 @@ public class FormatPreservingEncryption {
         this.lengthRange = lengthRange;
     }
 
-    public String encrypt(String plainTest, byte[] tweak) {
-        return new String();
+    public String encrypt(String plainText, byte[] tweak) {
+        int[] numeralPlainText = selectedDomain.textToIntTransformer().transform(plainText);
+        int[] numeralCipher = cipherer.encrypt(numeralPlainText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
+        return selectedDomain.intToTextTransformer().transform(numeralCipher);
     }
 
     public String decrypt(String cipherText, byte[] tweak) {
-        return new String();
+        int[] numeralCipherText = selectedDomain.textToIntTransformer().transform(cipherText);
+        int[] numeralPlainText = cipherer.dencrypt(numeralCipherText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
+        return selectedDomain.intToTextTransformer().transform(numeralPlainText);
     }
 }
