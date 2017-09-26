@@ -68,6 +68,24 @@ public class FormatPreservingEncryptionShould {
         assertThat(reverse).isNotEqualTo(anyPlainTextOfDefaultDomain);
     }
 
+    @Test
+    public void with_default_parameters_given_a_very_short_valid_domain_text_and_a_tweak_should_throws_an_exception() {
+        FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
+
+        String tooShortDomainText = "a";
+        byte[] oneTweak = new byte[]{
+                (byte) 0x01, (byte) 0x03, (byte) 0x02, (byte) 0x04
+        };
+        try{
+            String cipherText = formatPreservingEncryption.encrypt(tooShortDomainText, oneTweak);
+            assertThat(cipherText).isBlank();
+            String plainText = formatPreservingEncryption.decrypt(tooShortDomainText, oneTweak);
+            assertThat(plainText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+        }
+    }
+
     private FormatPreservingEncryption defaultFormatPreservingEncryption() {
         return FormatPreservingEncryptionBuilder.ff1Implementation()
                     .withDefaultDomain()

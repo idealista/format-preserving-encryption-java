@@ -16,4 +16,8 @@ public class LengthRange {
     public Integer max() {
         return max;
     }
+
+    public void validate(String text) {
+
+    }
 }
