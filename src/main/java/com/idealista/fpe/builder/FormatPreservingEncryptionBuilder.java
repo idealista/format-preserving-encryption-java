@@ -1,6 +1,7 @@
 package com.idealista.fpe.builder;
 
 import com.idealista.fpe.FormatPreservingEncryption;
+import com.idealista.fpe.algorithm.Cipher;
 import com.idealista.fpe.builder.steps.Builder;
 import com.idealista.fpe.builder.steps.WithDomain;
 import com.idealista.fpe.builder.steps.WithLengthRange;
@@ -14,9 +15,12 @@ import com.idealista.fpe.config.LengthRange;
 
 public class FormatPreservingEncryptionBuilder {
 
+    private static final String AVOID_INSTANCE_MESSAGE = "use class throw static methods";
     private static final Cipher ff1 = new com.idealista.fpe.algorithm.ff1.Cipher();
 
-
+    private FormatPreservingEncryptionBuilder () {
+        throw  new IllegalArgumentException(AVOID_INSTANCE_MESSAGE);
+    }
     public static WithDomain ff1Implementation() {
         return new WithDomainStep(ff1);
     }
