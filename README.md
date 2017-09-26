@@ -53,7 +53,7 @@ FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncrypti
         .withDefaultPseudoRandomFunction(anyKey)
         .withDefaultLengthRange()
         .build();
-
+    
 //with custom inputs
 FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncryptionBuilder
         .ff1Implementation()
@@ -78,15 +78,15 @@ The _domain_ of an instance has two elements:
 - *Alphabet*: A subset of characters that are valid to create a text input for an instance.
 - *Transformers*: Functions (Class) that are able to transform text to numeral string or numeral string to text.
 
-Defaults class of config package has a default domain with the lower case of english alphabet.
+The [default domain](src/main/java/com/idealista/fpe/config/basic/BasicAlphabet.java) includes the lower case letters of the English alphabet
 
 #### Pseudo Random Function (PRF)
 
-A given designated cipher function. By default we use AES-CBC with 128, 192 or 256 based on the input key.
+A given designated cipher function. By default AES-CBC with 128, 192 or 256 based on the input key is used.
 
 #### Input text length
 
-The minimum length of a text for a given domain is defined using the rules at the start of this section. Although the maximum length is no defined, you must be aware of performance issues when using a very large text.  
+The minimum length of a text for a given domain is defined using the rules at the start of this section. Although the maximum length is not defined, you must be aware of performance issues when using a very large text.  
 
 ## Requirements
 
