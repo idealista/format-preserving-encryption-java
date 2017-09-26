@@ -1,4 +1,4 @@
-package com.idealista.fpe.config.basic;
+package com.idealista.fpe.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import com.idealista.fpe.transformer.IntToTextTransformer;
 import com.idealista.fpe.transformer.TextToIntTransformer;
 
-public class BasicDomainTransformations implements IntToTextTransformer, TextToIntTransformer {
+public class GenericTransformations implements IntToTextTransformer, TextToIntTransformer {
 
     private final Map<Integer, Character> intToChar;
     private final Map<Character, Integer> charToInt;
 
-    public BasicDomainTransformations (char[] characters){
+    public GenericTransformations(char[] characters){
         intToChar = new HashMap<Integer, Character>(characters.length);
         charToInt = new HashMap<Character, Integer>(characters.length);
         for (int i = 0; i < characters.length; i++) {
