@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.idealista.fpe.RandomValuesProvider;
 import com.idealista.fpe.component.functions.prf.DefaultPseudoRandomFunction;
 
-public class FF1AlgorithmRandomPlainTextAndKeys {
+public class FF1AlgorithmRandomPlainTextAndKeysShould {
 
 
     private Integer radix = 0;

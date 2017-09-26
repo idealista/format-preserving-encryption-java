@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.idealista.fpe.builder.FormatPreservingEncryptionBuilder;
 import com.idealista.fpe.config.Defaults;
 
-public class FormatPreservingEncryptionRandomPlainTextAndKeys {
+public class FormatPreservingEncryptionRandomPlainTextAndKeysShould {
 
 
     private Integer radix = 0;
