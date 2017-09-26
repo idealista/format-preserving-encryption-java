@@ -76,9 +76,14 @@ public class FormatPreservingEncryptionShould {
         byte[] oneTweak = new byte[]{
                 (byte) 0x01, (byte) 0x03, (byte) 0x02, (byte) 0x04
         };
+
         try{
             String cipherText = formatPreservingEncryption.encrypt(tooShortDomainText, oneTweak);
             assertThat(cipherText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+        }
+        try{
             String plainText = formatPreservingEncryption.decrypt(tooShortDomainText, oneTweak);
             assertThat(plainText).isBlank();
         }catch (IllegalArgumentException exception) {
