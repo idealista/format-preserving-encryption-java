@@ -1,5 +1,6 @@
 package com.idealista.fpe;
 
+import static com.idealista.fpe.FormatPreservingEncryptionErrorMessage.NULL_INPUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
@@ -83,13 +84,13 @@ public class FormatPreservingEncryptionShould {
             String cipherText = formatPreservingEncryption.encrypt(tooShortDomainText, oneTweak);
             assertThat(cipherText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryptionErrorMessage.INVALID_SIZE.toString());
         }
         try{
             String plainText = formatPreservingEncryption.decrypt(tooShortDomainText, oneTweak);
             assertThat(plainText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryptionErrorMessage.INVALID_SIZE.toString());
         }
     }
 
@@ -116,13 +117,13 @@ public class FormatPreservingEncryptionShould {
             String cipherText = formatPreservingEncryption.encrypt(largeText, oneTweak);
             assertThat(cipherText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryptionErrorMessage.INVALID_SIZE.toString());
         }
         try{
             String plainText = formatPreservingEncryption.decrypt(largeText, oneTweak);
             assertThat(plainText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryptionErrorMessage.INVALID_SIZE.toString());
         }
     }
 
@@ -134,14 +135,14 @@ public class FormatPreservingEncryptionShould {
             String cipherText = formatPreservingEncryption.encrypt(null, null);
             assertThat(cipherText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.NULL_INPUT);
+            assertThat(exception).hasMessageContaining(NULL_INPUT.toString());
         }
 
         try{
             String plainText = formatPreservingEncryption.decrypt(null, null);
             assertThat(plainText).isBlank();
         }catch (IllegalArgumentException exception) {
-            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.NULL_INPUT);
+            assertThat(exception).hasMessageContaining(NULL_INPUT.toString());
         }
     }
 
