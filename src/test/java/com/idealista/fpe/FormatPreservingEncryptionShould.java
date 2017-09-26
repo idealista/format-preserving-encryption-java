@@ -126,6 +126,25 @@ public class FormatPreservingEncryptionShould {
         }
     }
 
+    @Test
+    public void given_null_input_should_throws_an_exception() {
+        FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
+
+        try{
+            String cipherText = formatPreservingEncryption.encrypt(null, null);
+            assertThat(cipherText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.NULL_INPUT);
+        }
+
+        try{
+            String plainText = formatPreservingEncryption.decrypt(null, null);
+            assertThat(plainText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.NULL_INPUT);
+        }
+    }
+
     private FormatPreservingEncryption defaultFormatPreservingEncryption() {
         return FormatPreservingEncryptionBuilder.ff1Implementation()
                     .withDefaultDomain()
