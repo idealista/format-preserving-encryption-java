@@ -17,7 +17,8 @@ public class LengthRange {
         return max;
     }
 
-    public void validate(String text) {
-
+    @Override
+    public String toString() {
+        return String.format("[%d, %d]", min, max);
     }
 }

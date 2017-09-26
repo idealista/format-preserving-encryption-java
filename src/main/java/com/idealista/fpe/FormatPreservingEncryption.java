@@ -20,16 +20,21 @@ public class FormatPreservingEncryption {
     }
 
     public String encrypt(String plainText, byte[] tweak) {
-        lengthRange.validate(plainText);
+        check(plainText);
         int[] numeralPlainText = selectedDomain.transform(plainText);
         int[] numeralCipher = cipherer.encrypt(numeralPlainText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
         return selectedDomain.transform(numeralCipher);
     }
 
     public String decrypt(String cipherText, byte[] tweak) {
-        lengthRange.validate(cipherText);
+        check(cipherText);
         int[] numeralCipherText = selectedDomain.transform(cipherText);
         int[] numeralPlainText = cipherer.dencrypt(numeralCipherText, selectedDomain.alphabet().radix(), tweak, selectedPRF);
         return selectedDomain.transform(numeralPlainText);
+    }
+
+    private void check(String text) {
+        if (text.length() < lengthRange.min())
+            throw  new IllegalArgumentException(INVALID_SIZE + lengthRange.toString());
     }
 }
