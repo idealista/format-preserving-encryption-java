@@ -8,7 +8,7 @@ import com.idealista.fpe.builder.steps.WithLengthRange;
 import com.idealista.fpe.builder.steps.WithPseudoRandomFunction;
 import com.idealista.fpe.builder.validate.BuildValidator;
 import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
-import com.idealista.fpe.component.functions.prf.PseudorandomFunction;
+import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Defaults;
 import com.idealista.fpe.config.Domain;
 import com.idealista.fpe.config.LengthRange;
@@ -52,7 +52,7 @@ public class FormatPreservingEncryptionBuilder {
         }
 
         @Override
-        public WithLengthRange withPseudoRandomFunction(PseudorandomFunction pseudoRandomFunction) {
+        public WithLengthRange withPseudoRandomFunction(PseudoRandomFunction pseudoRandomFunction) {
             return new WithLengthRangeStep(cipherer, selectedDomain, pseudoRandomFunction);
         }
 
@@ -65,9 +65,9 @@ public class FormatPreservingEncryptionBuilder {
     private static class WithLengthRangeStep implements WithLengthRange {
         private final com.idealista.fpe.algorithm.Cipherer cipherer;
         private final Domain selectedDomain;
-        private final PseudorandomFunction selectedPRF;
+        private final PseudoRandomFunction selectedPRF;
 
-        private WithLengthRangeStep(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudorandomFunction selectedPRF) {
+        private WithLengthRangeStep(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudoRandomFunction selectedPRF) {
             this.cipherer = cipherer;
             this.selectedDomain = selectedDomain;
             this.selectedPRF = selectedPRF;
@@ -88,10 +88,10 @@ public class FormatPreservingEncryptionBuilder {
     private static class TheBuilder implements Builder{
         private final com.idealista.fpe.algorithm.Cipherer cipherer;
         private final Domain selectedDomain;
-        private final PseudorandomFunction selectedPRF;
+        private final PseudoRandomFunction selectedPRF;
         private final LengthRange lengthRange;
 
-        private TheBuilder(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudorandomFunction selectedPRF, LengthRange lengthRange) {
+        private TheBuilder(com.idealista.fpe.algorithm.Cipherer cipherer, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
             this.cipherer = cipherer;
             this.selectedDomain = selectedDomain;
             this.selectedPRF = selectedPRF;

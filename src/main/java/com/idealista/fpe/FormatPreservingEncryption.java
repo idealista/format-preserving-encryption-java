@@ -1,11 +1,9 @@
 package com.idealista.fpe;
 
 import com.idealista.fpe.algorithm.Cipherer;
-import com.idealista.fpe.component.functions.prf.PseudorandomFunction;
+import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Domain;
 import com.idealista.fpe.config.LengthRange;
-
-import sun.util.resources.TimeZoneNames_zh_TW;
 
 public class FormatPreservingEncryption {
     public static final String INVALID_SIZE = "invalid size, out of range: ";
@@ -14,10 +12,10 @@ public class FormatPreservingEncryption {
 
     private final Cipherer cipherer;
     private final Domain selectedDomain;
-    private final PseudorandomFunction selectedPRF;
+    private final PseudoRandomFunction selectedPRF;
     private final LengthRange lengthRange;
 
-    public FormatPreservingEncryption(Cipherer cipherer, Domain selectedDomain, PseudorandomFunction selectedPRF, LengthRange lengthRange) {
+    public FormatPreservingEncryption(Cipherer cipherer, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
         this.cipherer = cipherer;
         this.selectedDomain = selectedDomain;
         this.selectedPRF = selectedPRF;

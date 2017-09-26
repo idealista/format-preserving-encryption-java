@@ -1,5 +1,5 @@
 package com.idealista.fpe.component.functions.prf;
 
-public interface PseudorandomFunction {
+public interface PseudoRandomFunction {
     public byte[] apply(byte[] text);
 }
