@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
 import com.idealista.fpe.builder.FormatPreservingEncryptionBuilder;
+import com.idealista.fpe.config.Defaults;
+import com.idealista.fpe.config.LengthRange;
 import com.idealista.fpe.config.basic.BasicAlphabet;
 
 public class FormatPreservingEncryptionShould {
@@ -85,6 +87,39 @@ public class FormatPreservingEncryptionShould {
         }
         try{
             String plainText = formatPreservingEncryption.decrypt(tooShortDomainText, oneTweak);
+            assertThat(plainText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+        }
+    }
+
+    @Test
+    public void with_a_low_max_length_given_a_large_valid_domain_text_and_a_tweak_should_throws_an_exception() {
+        int lowMaxLength = 7;
+        FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncryptionBuilder.ff1Implementation()
+                .withDefaultDomain()
+                .withDefaultPseudoRandomFunction(anyKey)
+                .withLengthRange(new LengthRange(Defaults.DEFAULT_MIN_LENGTH, lowMaxLength))
+                .build();
+
+        StringBuilder builder = new StringBuilder(lowMaxLength * 2);
+        for (int i = 0; i < lowMaxLength * 2; i++) {
+            builder.append("a");
+        }
+        String largeText = builder.toString();
+
+        byte[] oneTweak = new byte[]{
+                (byte) 0x01, (byte) 0x03, (byte) 0x02, (byte) 0x04
+        };
+
+        try{
+            String cipherText = formatPreservingEncryption.encrypt(largeText, oneTweak);
+            assertThat(cipherText).isBlank();
+        }catch (IllegalArgumentException exception) {
+            assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
+        }
+        try{
+            String plainText = formatPreservingEncryption.decrypt(largeText, oneTweak);
             assertThat(plainText).isBlank();
         }catch (IllegalArgumentException exception) {
             assertThat(exception).hasMessageContaining(FormatPreservingEncryption.INVALID_SIZE);
