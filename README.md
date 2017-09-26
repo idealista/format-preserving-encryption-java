@@ -1,15 +1,32 @@
 # fpe - Format Preserving Encryption Implementation in Java
 
+Format-preserving encryption (FPE) is designed for data that is not necessarily binary. In particular, given any finite set of symbols, like the decimal numerals, a method for FPE transforms data that is formatted as a sequence of the symbols in such a way that the encrypted form of the data has the same format, including the length, as the original data. Thus, an FPE-encrypted SSN would be a sequence of nine decimal digits.
 
-An implementation of the NIST approved Format Preserving Encryption (FPE) FF1 algorithms in Java.
+An implementation of the NIST approved Format Preserving Encryption (FPE) in Java.
 
 [NIST Recommendation SP 800-38G](http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-38G.pdf)
 
+
 ## Installation
 
+Check [requirements](#requirements) section before installation
+
+
+You can pull it from the central Maven repositories:
+
+```xml
+<dependency>
+  <groupId>com.idealista</groupId>
+  <artifactId>format-preserving-encryption</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 ## Features
 
+* Out of the box working algorithm with an easy API
+* Custom Domain (any subset of character could be used)
+* Custom Pseudo Random Function (_cipher algorithm_)
 
 ## Example Usage
 
@@ -75,6 +92,8 @@ The minimum length of a text for a given domain is defined using the rules at th
 
 The library has been tested with _Apache Maven 3.3.3_ and _JDK 1.6-1.7_. Newer versions of _Apache Maven/JDK_ should work but could also present issues.
 
+Usage of Java Cryptography Extension (JCE) requires to download an install Policy Files for target java distribution: [1.6](http://www.oracle.com/technetwork/es/java/javase/downloads/jce-6-download-429243.html), [1.7](http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html), [1.8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
+
 ## Design choices
 
 - FF1Algorithm is a _pure_ implementation without checking, input data is checked during object creation or before invoke the algorithm. Be awere of this when using the library and use the `FormatPreservingEncryptionBuilder` class.
@@ -86,4 +105,8 @@ The library has been tested with _Apache Maven 3.3.3_ and _JDK 1.6-1.7_. Newer v
 
 ## License 
 
-Read [LICENSE.txt](LICENSE.txt) attached to the project⏎
+Read [LICENSE.txt](LICENSE.txt) attached to the project
+
+## Contribution
+
+Read [CONTRIBUTION.md](CONTRIBUTION.md)
