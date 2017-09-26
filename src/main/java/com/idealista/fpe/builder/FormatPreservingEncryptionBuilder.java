@@ -7,7 +7,7 @@ import com.idealista.fpe.builder.steps.WithDomain;
 import com.idealista.fpe.builder.steps.WithLengthRange;
 import com.idealista.fpe.builder.steps.WithPseudoRandomFunction;
 import com.idealista.fpe.builder.validate.BuildValidator;
-import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
+import com.idealista.fpe.component.functions.prf.DefaultPseudoRandomFunction;
 import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Defaults;
 import com.idealista.fpe.config.Domain;
@@ -58,7 +58,7 @@ public class FormatPreservingEncryptionBuilder {
 
         @Override
         public WithLengthRange withDefaultPseudoRandomFunction(byte[] key) {
-            return withPseudoRandomFunction(new DefaultPseudarandomFunction(key));
+            return withPseudoRandomFunction(new DefaultPseudoRandomFunction(key));
         }
     }
 

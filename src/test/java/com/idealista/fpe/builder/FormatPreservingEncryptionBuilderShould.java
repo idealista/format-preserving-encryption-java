@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
 import com.idealista.fpe.FormatPreservingEncryption;
-import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
+import com.idealista.fpe.component.functions.prf.DefaultPseudoRandomFunction;
 import com.idealista.fpe.config.Alphabet;
 import com.idealista.fpe.config.LengthRange;
 import com.idealista.fpe.config.GenericDomain;
@@ -42,7 +42,7 @@ public class FormatPreservingEncryptionBuilderShould {
         FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncryptionBuilder
                 .ff1Implementation()
                 .withDomain(new GenericDomain(alphabet, new GenericTransformations(alphabet.availableCharacters()), new GenericTransformations(alphabet.availableCharacters())))
-                .withPseudoRandomFunction(new DefaultPseudarandomFunction(anyKey))
+                .withPseudoRandomFunction(new DefaultPseudoRandomFunction(anyKey))
                 .withLengthRange(new LengthRange(4, 20))
                 .build();
 

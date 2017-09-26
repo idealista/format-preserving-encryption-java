@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import com.idealista.fpe.component.functions.prf.DefaultPseudarandomFunction;
+import com.idealista.fpe.component.functions.prf.DefaultPseudoRandomFunction;
 
 @RunWith(Parameterized.class)
 public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
@@ -49,19 +49,19 @@ public class FF1AlgorithmWithRadix10NoEmptyDataKey128Should {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
+        int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudoRandomFunction(key));
         assertThat(input.length).isEqualTo(cipherText.length);
         assertThat(input).isNotEqualTo(cipherText);
-        assertThat(input).isEqualTo(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudarandomFunction(key)));
+        assertThat(input).isEqualTo(FF1Algorithm.decrypt(cipherText, radix, tweak, new DefaultPseudoRandomFunction(key)));
 
     }
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudarandomFunction(key));
+        int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudoRandomFunction(key));
         assertThat(input.length).isEqualTo(plainText.length);
         assertThat(input).isNotEqualTo(plainText);
-        assertThat(input).isEqualTo(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudarandomFunction(key)));
+        assertThat(input).isEqualTo(FF1Algorithm.encrypt(plainText, radix, tweak, new DefaultPseudoRandomFunction(key)));
 
     }
 
