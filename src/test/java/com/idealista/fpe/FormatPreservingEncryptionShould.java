@@ -18,12 +18,12 @@ public class FormatPreservingEncryptionShould {
             (byte) 0x02, (byte) 0x02, (byte) 0x02, (byte) 0x02,
             (byte) 0x03, (byte) 0x03, (byte) 0x03, (byte) 0x03
     };
+    private String anyPlainTextOfDefaultDomain = "abcdefgsffsdfe";
 
     @Test
     public void with_default_parameters_given_a_valid_domain_text_and_an_empty_tweak_should_return_a_valid_cipher_text () {
         FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
 
-        String anyPlainTextOfDefaultDomain = "abcdefgsffsdfe";
 
         String cipherText = formatPreservingEncryption.encrypt(anyPlainTextOfDefaultDomain, new byte[0]);
 
@@ -37,7 +37,6 @@ public class FormatPreservingEncryptionShould {
     public void with_default_parameters_given_a_valid_domain_text_and_a_valid_tweak_should_return_a_valid_cipher_text () {
         FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
 
-        String anyPlainTextOfDefaultDomain = "abcdefgsffsdfe";
         byte[] anyTweak = new byte[]{
                 (byte) 0x01, (byte) 0x03, (byte) 0x02, (byte) 0x04
         };
@@ -54,7 +53,6 @@ public class FormatPreservingEncryptionShould {
     public void with_default_parameters_given_a_valid_domain_text_and_two_different_tweaks_should_return_a_invalid_cipher_text() {
         FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
 
-        String anyPlainTextOfDefaultDomain = "abcdefgsffsdfe";
         byte[] oneTweak = new byte[]{
                 (byte) 0x01, (byte) 0x03, (byte) 0x02, (byte) 0x04
         };
