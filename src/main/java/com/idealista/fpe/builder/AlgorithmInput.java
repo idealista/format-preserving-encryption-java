@@ -1,25 +1,25 @@
 package com.idealista.fpe.builder;
 
-import com.idealista.fpe.algorithm.Cipherer;
+import com.idealista.fpe.algorithm.Cipher;
 import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Domain;
 import com.idealista.fpe.config.LengthRange;
 
 public class AlgorithmInput {
-    private final Cipherer cipherer;
+    private final Cipher cipher;
     private final Domain selectedDomain;
     private final PseudoRandomFunction selectedPRF;
     private final LengthRange lengthRange;
 
-    AlgorithmInput(Cipherer cipherer, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
-        this.cipherer = cipherer;
+    AlgorithmInput(Cipher cipher, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
+        this.cipher = cipher;
         this.selectedDomain = selectedDomain;
         this.selectedPRF = selectedPRF;
         this.lengthRange = lengthRange;
     }
 
-    public Cipherer getCipherer() {
-        return cipherer;
+    public Cipher getCipher() {
+        return cipher;
     }
 
     public Domain getSelectedDomain() {

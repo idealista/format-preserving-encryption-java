@@ -68,12 +68,12 @@ class FF1Algorithm {
     }
 
     private static ByteString roundFunction(PseudoRandomFunction pseudoRandomFunction, int paddingToEnsureFeistelOutputIsBigger, ByteString padding, ByteString q) {
-        byte[] R = pseudoRandomFunction.apply(padding.concatenate(q).raw());
-        ByteString S = new ByteString(R);
+        byte[] r = pseudoRandomFunction.apply(padding.concatenate(q).raw());
+        ByteString s = new ByteString(r);
         for (int j = 1; j <= ceil(paddingToEnsureFeistelOutputIsBigger / 16.0) - 1; j++) {
-            S = S.concatenate(new ByteString(pseudoRandomFunction.apply(xor(R, numberAsArrayOfBytes(j, 16).getData()))));
+            s = s.concatenate(new ByteString(pseudoRandomFunction.apply(xor(r, numberAsArrayOfBytes(j, 16).getData()))));
         }
-        return S;
+        return s;
     }
 
     private static ByteString generateQ(ByteString tweak, BigInteger targetSideNumeral, int lengthOfLeftAfterEncoded, int round) {

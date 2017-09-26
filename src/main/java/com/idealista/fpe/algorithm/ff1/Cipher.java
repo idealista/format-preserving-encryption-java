@@ -2,7 +2,7 @@ package com.idealista.fpe.algorithm.ff1;
 
 import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 
-public class Cipherer implements com.idealista.fpe.algorithm.Cipherer{
+public class Cipher implements com.idealista.fpe.algorithm.Cipher {
 
     @Override
     public int[] encrypt(int[] plainText, Integer radix, byte[] tweak, PseudoRandomFunction pseudoRandomFunction) {
@@ -10,7 +10,7 @@ public class Cipherer implements com.idealista.fpe.algorithm.Cipherer{
     }
 
     @Override
-    public int[] dencrypt(int[] cipherText, Integer radix, byte[] tweak, PseudoRandomFunction pseudoRandomFunction) {
+    public int[] decrypt(int[] cipherText, Integer radix, byte[] tweak, PseudoRandomFunction pseudoRandomFunction) {
         return FF1Algorithm.decrypt(cipherText, radix, tweak, pseudoRandomFunction);
     }
 }
