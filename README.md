@@ -53,6 +53,7 @@ FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncrypti
         .withDefaultPseudoRandomFunction(anyKey)
         .withDefaultLengthRange()
         .build();
+
 //with custom inputs
 FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncryptionBuilder
         .ff1Implementation()
@@ -64,7 +65,6 @@ FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncrypti
 //usage
 String cipherText = formatPreservingEncryption.encrypt(aText, aTweak);
 String plainText = formatPreservingEncryption.decrypt(aText, aTweak);
-
 ```
 
 ### Custom Inputs
