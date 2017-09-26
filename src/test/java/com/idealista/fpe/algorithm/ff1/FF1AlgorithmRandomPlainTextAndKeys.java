@@ -6,7 +6,7 @@ import javax.crypto.KeyGenerator;
 
 import org.junit.Test;
 
-import com.idealista.fpe.RadomValuesProvider;
+import com.idealista.fpe.RandomValuesProvider;
 import com.idealista.fpe.component.functions.prf.DefaultPseudoRandomFunction;
 
 public class FF1AlgorithmRandomPlainTextAndKeys {
@@ -45,11 +45,11 @@ public class FF1AlgorithmRandomPlainTextAndKeys {
 
     private void generateValues() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(RadomValuesProvider.getRandomKeyLength());
+        keyGenerator.init(RandomValuesProvider.getRandomKeyLength());
         key = keyGenerator.generateKey().getEncoded();
-        radix = RadomValuesProvider.getRandomRadix();
-        input = RadomValuesProvider.randomPlainText(radix);
-        values = RadomValuesProvider.valuesAsString(input, key, radix);
+        radix = RandomValuesProvider.getRandomRadix();
+        input = RandomValuesProvider.randomPlainText(radix);
+        values = RandomValuesProvider.valuesAsString(input, key, radix);
     }
 
 

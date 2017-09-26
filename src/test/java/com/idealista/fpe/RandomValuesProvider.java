@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.idealista.fpe.config.Defaults;
 
-public class RadomValuesProvider {
+public class RandomValuesProvider {
 
     public static int getRandomKeyLength() {
         int[] keySizes = {128, 192, 256};
@@ -72,7 +72,7 @@ public class RadomValuesProvider {
         return new StringBuilder()
                 .append("input: ").append(input)
                 .append("\n")
-                .append("key: ").append(RadomValuesProvider.asString(key))
+                .append("key: ").append(RandomValuesProvider.asString(key))
                 .append("\n")
                 .append("radix: ").append(radix).toString();
     }

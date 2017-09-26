@@ -47,11 +47,11 @@ public class FormatPreservingEncryptionRandomPlainTextAndKeys {
 
     private void generateValues() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(RadomValuesProvider.getRandomKeyLength());
+        keyGenerator.init(RandomValuesProvider.getRandomKeyLength());
         radix = Defaults.ALPHABET.radix();
         key = keyGenerator.generateKey().getEncoded();
-        input = RadomValuesProvider.randomPlainTextOfBasicDomain();
-        values = RadomValuesProvider.valuesAsString(input, key, radix);
+        input = RandomValuesProvider.randomPlainTextOfBasicDomain();
+        values = RandomValuesProvider.valuesAsString(input, key, radix);
     }
 
     private FormatPreservingEncryption defaultFormatPreservingEncryption() {
