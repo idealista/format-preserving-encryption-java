@@ -1,6 +1,8 @@
-package com.idealista.fpe.algorithm.ff1;
+package com.idealista.fpe;
 
 import java.util.Random;
+
+import com.idealista.fpe.config.Defaults;
 
 public class RadomValuesProvider {
 
@@ -18,6 +20,16 @@ public class RadomValuesProvider {
             a[i] = randomNumbers.nextInt(radix);
         }
         return a;
+    }
+
+    public static String randomPlainTextOfBasicDomain() {
+        int[] randomNumbers = randomPlainText(Defaults.ALPHABET.radix());
+        char[] chars = Defaults.ALPHABET.availableCharacters();
+        StringBuilder builder = new StringBuilder(randomNumbers.length);
+        for (int number : randomNumbers) {
+            builder.append(chars[number]);
+        }
+        return builder.toString();
     }
 
     public static int getRandomTextLength() {
@@ -53,8 +65,12 @@ public class RadomValuesProvider {
     }
 
     public static String valuesAsString(int[] input, byte[] key, int radix) {
+        return valuesAsString(asString(input), key, radix);
+    }
+
+    public static String valuesAsString(String input, byte[] key, int radix) {
         return new StringBuilder()
-                .append("input: ").append(RadomValuesProvider.asString(input))
+                .append("input: ").append(input)
                 .append("\n")
                 .append("key: ").append(RadomValuesProvider.asString(key))
                 .append("\n")
