@@ -4,6 +4,8 @@ import java.math.BigInteger;
 
 public class ComponentFunctions {
 
+    private ComponentFunctions(){}
+
     public static BigInteger num(int[] plainData, Integer radix) {
         BigInteger result = BigInteger.ZERO;
         BigInteger base = BigInteger.valueOf(radix);
