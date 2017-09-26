@@ -1,6 +1,7 @@
 package com.idealista.fpe;
 
 import com.idealista.fpe.algorithm.Cipherer;
+import com.idealista.fpe.builder.AlgorithmInput;
 import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Domain;
 import com.idealista.fpe.config.LengthRange;
@@ -15,11 +16,11 @@ public class FormatPreservingEncryption {
     private final PseudoRandomFunction selectedPRF;
     private final LengthRange lengthRange;
 
-    public FormatPreservingEncryption(Cipherer cipherer, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
-        this.cipherer = cipherer;
-        this.selectedDomain = selectedDomain;
-        this.selectedPRF = selectedPRF;
-        this.lengthRange = lengthRange;
+    public FormatPreservingEncryption(AlgorithmInput algorithmInput) {
+        this.cipherer = algorithmInput.getCipherer();
+        this.selectedDomain = algorithmInput.getSelectedDomain();
+        this.selectedPRF = algorithmInput.getSelectedPRF();
+        this.lengthRange = algorithmInput.getLengthRange();
     }
 
     public String encrypt(String plainText, byte[] tweak) {

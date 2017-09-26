@@ -101,7 +101,7 @@ public class FormatPreservingEncryptionBuilder {
         @Override
         public FormatPreservingEncryption build() {
             new BuildValidator(selectedDomain.alphabet().radix(), lengthRange.min(), lengthRange.max()).validate();
-            return new FormatPreservingEncryption(cipherer, selectedDomain, selectedPRF, lengthRange);
+            return new FormatPreservingEncryption(new AlgorithmInput(cipherer, selectedDomain, selectedPRF, lengthRange));
         }
     }
 }
