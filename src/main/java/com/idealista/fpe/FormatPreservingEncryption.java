@@ -34,7 +34,7 @@ public class FormatPreservingEncryption {
     }
 
     private void check(String text) {
-        if (text.length() < lengthRange.min())
+        if (text.length() < lengthRange.min() || text.length() > lengthRange.max())
             throw  new IllegalArgumentException(INVALID_SIZE + lengthRange.toString());
     }
 }
