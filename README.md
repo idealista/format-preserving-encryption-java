@@ -62,7 +62,7 @@ FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncrypti
         .build();
 
 //usage
-String cihperText = formatPreservingEncryption.encrypt(aText, aTweak);
+String cipherText = formatPreservingEncryption.encrypt(aText, aTweak);
 String plainText = formatPreservingEncryption.decrypt(aText, aTweak);
 
 ```
