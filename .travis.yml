@@ -1,0 +1,18 @@
+language: java
+
+install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script: mvn test -P !build-extras -B
+
+cache:
+  directories:
+  - "~/.m2/repository"
+
+after_success:
+- "./buld/before-deploy.sh"
+- "./buld/deploy.sh"
+
+env:
+  global:
+  - secure: BWkKJyJwZhaRJRAiJwFxINsb1F+u1ZBffdepcbIbGu74bC5H4fYBjGIhhf+HBLne8pfoOnLp5viG6bh1iBNx+iEpVFys1fdtO4yW8a6RD4e8WORDSv3mlJX0PaF4+DsohTgACCiGm15Sbha5QrpVjqgLwc4xgXI9MWjdIewbgAYn+pCIaFeylttrvwSR/xhngkPsWemcjBkxMv2ZXct3jhDKiEIkubnwgwmAQ4hCVjP/OcQLX+GBq/TovVfb9orUUwi3VxvvNmyrNM3i31mvqp3gR7W4EUoztp+S5XEQ1OM55AatCHG3xT9/9So5FmL7h79g2TNglKH6Bdo+cjHam+AtN+t/jM8VQe8esathEEcAOxv5EngEa6vmKjFB36Kg5fWyhfbCNEO43j/aNxpme5Jm4mlIwVaSy0aLwNVjlz+MhoKSd5GvGMzwP2vYMpntMXfhvc9QfxDE/a7PCakcVxAmE3z6oHzuB8y8PxQY8wORX8jTeNCBqYsz0VE8IA4MVtNt7Na3WTQFKiww6YJVh8HkBfV3gp6Uud3xNmXfHSS726WYvrhIy5N7YLEGssZK2eoCm5Z3CXC98Kd7odjxROTcC2GSvwmIOIfn1pxAME/yVEuJa8qsvFfVzS2ujX0YoLwVvXbXh8bdMKLQsdzWOlkEwAfUV7ai5YYJOBDKVTo=
+  - secure: QNfI+sA8Tlx4ft79F2mI/QlHg2p3bpFXTCj/GSV00OQl5cG1rj2dAjTgxv1R/wld1LSFe/PaU0l1y59ie4nYlg7L+ugtAwgEysUJLX/DotaL2v5F/XPMGJXvg90pR2PwKXroQ2OoYM2pi+6rOKr71gbxqXayWazFRLbugMnJMZI2+D5QpLQ8V4sfGD+ZZZADkPNL0iyqnjOChzc4YzQbA8RmG/9jOeTvwfJfqb6qmxkUxAYYHTBaKvjBXuAu1J+T3cARdWeXONPQR0T0PCHi8Sql2T7u459/8qfCM1t7j5AUXsazhripRcCTPJmPu8GXrH1SvXxIQ+QFdRXSYZTeJlcjoSCfB2+xer9o6ZEvWnc2dSGFLne0gDLX7QNdcwr/HRBUQfW68wkRRXrCVyRNYtkZL8KpVIIap4nAi4fG3uS01QWgW5uHA4XgtnCcCqp3zX3MTWiSQgMqUy/l3jGJZdADGlLi+QD6q7XHY9CmFxgH5AjqWxctkznnLlWC9XH0HUF811PktjftiasHCt47vfwUBfE6GiqwE+Vc/BtdZcyLqv94tv0k4NH/YI4t0Wb1O2LgDe6eFzjES01p+mWNfLfQsskqUnpFAXIXOurh+0l1wp2Eqr+eB+VrslzoXK9pFmPsJIyrmKt7Co36wUxoVAmQdPgdpVyd+Npzm9DWoWw=
