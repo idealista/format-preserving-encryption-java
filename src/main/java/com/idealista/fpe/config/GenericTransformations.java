@@ -20,8 +20,6 @@ public class GenericTransformations implements IntToTextTransformer, TextToIntTr
         }
     }
 
-
-
     @Override
     public String transform(int[] data) {
         StringBuilder builder = new StringBuilder(data.length);
