@@ -3,7 +3,7 @@ package com.idealista.fpe;
 import static com.idealista.fpe.FormatPreservingEncryptionErrorMessage.*;
 
 import com.idealista.fpe.algorithm.Cipher;
-import com.idealista.fpe.builder.AlgorithmInput;
+import com.idealista.fpe.builder.validate.BuildValidator;
 import com.idealista.fpe.component.functions.prf.PseudoRandomFunction;
 import com.idealista.fpe.config.Domain;
 import com.idealista.fpe.config.LengthRange;
@@ -15,11 +15,12 @@ public class FormatPreservingEncryption {
     private final PseudoRandomFunction selectedPRF;
     private final LengthRange lengthRange;
 
-    public FormatPreservingEncryption(AlgorithmInput algorithmInput) {
-        this.cipher = algorithmInput.getCipher();
-        this.selectedDomain = algorithmInput.getSelectedDomain();
-        this.selectedPRF = algorithmInput.getSelectedPRF();
-        this.lengthRange = algorithmInput.getLengthRange();
+    public FormatPreservingEncryption(Cipher cipher, Domain selectedDomain, PseudoRandomFunction selectedPRF, LengthRange lengthRange) {
+        new BuildValidator(selectedDomain.alphabet().radix(), lengthRange.min(), lengthRange.max()).validate();
+        this.cipher = cipher;
+        this.selectedDomain = selectedDomain;
+        this.selectedPRF = selectedPRF;
+        this.lengthRange = lengthRange;
     }
 
     public String encrypt(String plainText, byte[] tweak) {
