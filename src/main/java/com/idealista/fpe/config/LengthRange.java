@@ -1,6 +1,7 @@
 package com.idealista.fpe.config;
 
 public class LengthRange {
+    private static final String RANGE_FORMAT = "[%d, %d]";
     private final Integer min;
     private final Integer max;
 
@@ -19,6 +20,6 @@ public class LengthRange {
 
     @Override
     public String toString() {
-        return String.format("[%d, %d]", min, max);
+        return String.format(RANGE_FORMAT, min, max);
     }
 }
