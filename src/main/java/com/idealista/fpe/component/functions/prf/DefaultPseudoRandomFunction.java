@@ -22,7 +22,7 @@ public class DefaultPseudoRandomFunction implements PseudoRandomFunction {
     public byte[] apply(byte[] plain) {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(this.key, KEY_ALGORITHM_NAME), new IvParameterSpec(initializationVector));
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, KEY_ALGORITHM_NAME), new IvParameterSpec(initializationVector));
             byte[] result = cipher.doFinal(plain);
             return Arrays.copyOfRange(result, result.length - initializationVector.length, result.length);
         } catch (GeneralSecurityException e) {
