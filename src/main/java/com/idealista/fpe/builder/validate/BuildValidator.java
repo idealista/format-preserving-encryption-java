@@ -17,7 +17,7 @@ public class BuildValidator {
         this.maxLength = maxLength;
     }
 
-    public void validate () {
+    public void validate() {
         radix();
         radixToMinLength();
         textSizeLimits();
