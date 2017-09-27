@@ -34,7 +34,7 @@ public class BuildValidator {
     }
 
     void radixToMinLength() {
-        if (Math.pow(radix, minLength) <= 100)
+        if (Math.pow(radix, minLength) < 100)
             throw new IllegalArgumentException(RADIX_TO_MIN_LENGTH_LOWER_THAN_LIMIT);
     }
 }
