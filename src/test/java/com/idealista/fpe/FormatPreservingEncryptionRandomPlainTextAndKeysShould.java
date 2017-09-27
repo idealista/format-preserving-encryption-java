@@ -21,7 +21,7 @@ public class FormatPreservingEncryptionRandomPlainTextAndKeysShould {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<RandomValuesProvider.NUMBER_OF_RANDOM_TEST; i++) {
             generateValues();
             FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
             String cipherText = formatPreservingEncryption.encrypt(input, tweak);
@@ -34,7 +34,7 @@ public class FormatPreservingEncryptionRandomPlainTextAndKeysShould {
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<RandomValuesProvider.NUMBER_OF_RANDOM_TEST; i++) {
             generateValues();
             FormatPreservingEncryption formatPreservingEncryption = defaultFormatPreservingEncryption();
             String plainText = formatPreservingEncryption.decrypt(input, tweak);

@@ -6,6 +6,8 @@ import com.idealista.fpe.config.Defaults;
 
 public class RandomValuesProvider {
 
+    public static final Integer NUMBER_OF_RANDOM_TEST = 100;
+
     public static int getRandomKeyLength() {
         int[] keySizes = {128, 192, 256};
         int rnd = new Random().nextInt(keySizes.length);

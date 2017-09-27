@@ -21,7 +21,7 @@ public class FF1AlgorithmRandomPlainTextAndKeysShould {
 
     @Test
     public void given_a_plain_text_return_the_cipher_text () throws Exception {
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<RandomValuesProvider.NUMBER_OF_RANDOM_TEST; i++) {
             generateValues();
             int[] cipherText = FF1Algorithm.encrypt(input, radix, tweak, new DefaultPseudoRandomFunction(key));
             assertThat(input.length).as(values).isEqualTo(cipherText.length);
@@ -33,7 +33,7 @@ public class FF1AlgorithmRandomPlainTextAndKeysShould {
 
     @Test
     public void given_a_cipher_text_return_the_plain_text () throws Exception {
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<RandomValuesProvider.NUMBER_OF_RANDOM_TEST; i++) {
             generateValues();
             int[] plainText = FF1Algorithm.decrypt(input, radix, tweak, new DefaultPseudoRandomFunction(key));
             assertThat(input.length).as(values).isEqualTo(plainText.length);
