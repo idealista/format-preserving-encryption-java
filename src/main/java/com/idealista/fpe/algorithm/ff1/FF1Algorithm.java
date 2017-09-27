@@ -14,8 +14,7 @@ import com.idealista.fpe.data.IntString;
 
 class FF1Algorithm {
 
-    private static final int[] DECRYPT_ROUNDS = new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-    private static final int[] ENCRYPT_ROUNDS = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    private static final int NUMBER_OF_ROUNDS = 10;
 
     private FF1Algorithm (){}
 
@@ -29,7 +28,7 @@ class FF1Algorithm {
 
         int[] left = target.left();
         int[] right = target.right();
-        for (int round : ENCRYPT_ROUNDS) {
+        for (int round=0; round<NUMBER_OF_ROUNDS; round++) {
             BigInteger roundNumeral = roundNumeral(num(right, radix), tweak, padding, pseudoRandomFunction, lengthOfLeftAfterEncoded, paddingToEnsureFeistelOutputIsBigger, round);
             int partialLength = round % 2 == 0 ? leftSideLength : rightSideLength;
             BigInteger partialNumeral = num(left, radix).add(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
@@ -50,7 +49,7 @@ class FF1Algorithm {
 
         int[] left = target.left();
         int[] right = target.right();
-        for (int round : DECRYPT_ROUNDS) {
+        for (int round=NUMBER_OF_ROUNDS-1; round>=0; round--) {
             BigInteger roundNumeral = roundNumeral(num(left, radix), tweak, padding, pseudoRandomFunction, lengthOfLeftAfterEncoded, paddingToEnsureFeistelOutputIsBigger, round);
             int partialLength = round % 2 == 0 ? leftSideLength : rightSideLength;
             BigInteger partialNumeral = num(right, radix).subtract(roundNumeral).mod(BigInteger.valueOf(radix).pow(partialLength));
