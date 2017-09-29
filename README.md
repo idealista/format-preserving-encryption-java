@@ -111,4 +111,4 @@ Read [LICENSE.txt](LICENSE.txt) attached to the project
 
 ## Contribution
 
-Read [CONTRIBUTION.md](CONTRIBUTION.md)
+Read [CONTRIBUTION.md](.github/CONTRIBUTING.md)
