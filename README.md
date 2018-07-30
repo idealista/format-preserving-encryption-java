@@ -60,7 +60,7 @@ FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncrypti
 FormatPreservingEncryption formatPreservingEncryption = FormatPreservingEncryptionBuilder
         .ff1Implementation()
         .withDomain(new BasicAlphabetDomain())
-        .withPseudoRandomFunction(new DefaultPseudarandomFunction(anyKey))
+        .withPseudoRandomFunction(new DefaultPseudoRandomFunction(anyKey))
         .withLengthRange(new LengthRange(2, 20))
         .build();
 
