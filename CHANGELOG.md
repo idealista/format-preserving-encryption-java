@@ -9,3 +9,5 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Added
 - *FF1 implementation* @jdvr
 
+## [1.0.1] Updated dependencies and Minimum JDK to 1.8
+
