@@ -37,7 +37,7 @@ public class FormatPreservingEncryption {
         return selectedDomain.transform(numeralPlainText);
     }
 
-    private void check(String text, byte[] tweak) {
+    protected void check(String text, byte[] tweak) {
         if (text == null || tweak == null)
             throw  new IllegalArgumentException(NULL_INPUT.toString());
 
